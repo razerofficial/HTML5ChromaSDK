@@ -18,10 +18,10 @@ function playAnimation(animationName) {
   if (animations[animationName] == undefined) {
     ChromaAnimation.openAnimation(animationName,
       function(animation) {
-	    animations[animationName] = animation;
+        animations[animationName] = animation;
         console.log(animation);
-	    animation.play();
-    });
+        animation.play();
+      });
   } else {
     animations[animationName].play();
   }
