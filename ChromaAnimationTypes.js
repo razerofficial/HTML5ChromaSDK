@@ -26,6 +26,7 @@ function ChromaAnimationFrame2D() {
 }
 
 var ChromaAnimation = {
+  LoadedAnimations: {},
   displayInfo: function(msg) {
     //document.write(msg + '<br />');
     console.log(msg);
@@ -114,5 +115,23 @@ var ChromaAnimation = {
     xhr.open('GET', animationName, true);
     xhr.responseType = "arraybuffer";
     xhr.send('');
+  },
+  playAnimation: function(animationName) {
+    if (this.LoadedAnimations[animationName] == undefined) {
+      var refThis = this;
+      ChromaAnimation.openAnimation(animationName,
+        function (animation) {
+          refThis.LoadedAnimations[animationName] = animation;
+          console.log(animation);
+          animation.play();
+        });
+    } else {
+      this.LoadedAnimations[animationName].play();
+    }
+  },
+  stopAnimation: function(animationName) {
+    if (this.LoadedAnimations[animationName] != undefined) {
+      this.LoadedAnimations[animationName].stop();
+    }
   }
 };
