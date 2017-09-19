@@ -1,0 +1,54 @@
+<html>
+<head>
+<script src="ChromaSDKImpl.js"></script>
+<script src="ChromaAnimationTypes.js"></script>
+<script src="ChromaAnimation1D.js"></script>
+<script src="ChromaAnimation2D.js"></script>
+</head>
+<script>
+var chromaSDK = undefined;
+var animations = {};
+
+function onPageLoad() {
+  chromaSDK = new ChromaSDK();
+  chromaSDK.init();
+}
+
+function playAnimation(animationName) {
+  if (animations[animationName] == undefined) {
+    ChromaAnimation.openAnimation(animationName,
+      function(animation) {
+	    animations[animationName] = animation;
+        console.log(animation);
+	    animation.play();
+    });
+  } else {
+    animations[animationName].play();
+  }
+}
+
+function stopAnimation(animationName) {
+  if (animations[animationName] != undefined) {
+    animations[animationName].stop();
+  }
+}
+
+</script>
+
+<body onload="onPageLoad()" onunload="chromaSDK.uninit()">
+<button onclick="playAnimation('Random_ChromaLink.chroma');">Play ChromaLink Animation</button>
+<button onclick="stopAnimation('Random_ChromaLink.chroma');">Stop</button><br />
+
+<button onclick="playAnimation('Random_Keyboard.chroma');">Play Keyboard Animation</button>
+<button onclick="stopAnimation('Random_Keyboard.chroma');">Stop</button><br />
+
+<button onclick="playAnimation('Random_Keypad.chroma');">Play Keypad Animation</button>
+<button onclick="stopAnimation('Random_Keypad.chroma');">Stop</button><br />
+
+<button onclick="playAnimation('Random_Mouse.chroma');">Play Mouse Animation</button>
+<button onclick="stopAnimation('Random_Mouse.chroma');">Stop</button><br />
+
+<button onclick="playAnimation('Random_Mousepad.chroma');">Play Mousepad Animation</button>
+<button onclick="stopAnimation('Random_Mousepad.chroma');">Stop</button><br />
+</body>
+</html>

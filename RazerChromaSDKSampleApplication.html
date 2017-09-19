@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Razer Chroma SDK Sample Application</title>
+    <link rel="stylesheet" type="text/css" href="ModalDlg.css">
+    <link rel="stylesheet" type="text/css" href="TabbedDlg.css">
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        button {
+            width: 200px;
+            height: 35px;
+        }
+    </style>
+    <script src="ChromaSDKImpl.js"></script>
+    <script src="KeyboardEffects.js"></script>
+    <script src="MousematEffects.js"></script>
+    <script src="MouseEffects.js"></script>
+    <script src="HeadsetEffects.js"></script>
+    <script src="KeypadEffects.js"></script>
+    <script src="ChromaLinkEffects.js"></script>
+    <script type="text/javascript">
+        var chromaSDK = new ChromaSDK();
+        var keyboardEffect = new KeyboardEffects();
+        var mouseeffect = new MouseEffects();
+        var mousematEffect = new MousematEffects();
+        var headsetEffect = new HeadsetEffects();
+        var keypadEffect = new KeypadEffects();
+        var chromaLinkEffect = new ChromaLinkEffects();
+
+        function sleep(ms) {
+            var currentTime = new Date().getTime();
+            while (currentTime + ms >= new Date().getTime()) {
+            }
+        }
+
+        // Click on the window to close any modal dialogs
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('AlertDlg')) {
+                document.getElementById('AlertDlg').style.display = 'none';
+            } else if (event.target == document.getElementById('HealthAmmoDlg')) {
+                document.getElementById('HealthAmmoDlg').style.display = 'none';
+            } else if (event.target == document.getElementById('CooldownTimerDlg')) {
+                document.getElementById('CooldownTimerDlg').style.display = 'none';
+            } else if (event.target == document.getElementById('TutorialDlg')) {
+                document.getElementById('TutorialDlg').style.display = 'none';
+                showTutorial(false);
+            }
+        }
+
+        function showTutorial(start) {
+            if (start == true) {
+                document.getElementById('TutorialDlg').style.display = 'block';
+                document.getElementById('TutorialMsg').innerHTML = "Press 'W' to move forward";
+
+                if (document.getElementById('Keyboards').style.display == 'block') {
+                    keyboardEffect.createTutorial('87');
+                } else if (document.getElementById('Keypads').style.display == 'block') {
+                    keypadEffect.createTutorial('87');
+                }
+
+                document.onkeyup = function () {
+
+                    var event = window.event ? window.event : e;
+                    if (event.keyCode == '87') {
+
+                        if (document.getElementById('Keyboards').style.display == 'block') {
+                            keyboardEffect.createTutorial('65');
+                        } else if (document.getElementById('Keypads').style.display == 'block') {
+                            keypadEffect.createTutorial('65');
+                        }
+
+                        document.getElementById('TutorialMsg').innerHTML = "Press 'A' to strafe left";
+
+                        document.onkeyup = function () {
+                            event = window.event ? window.event : e;
+
+                            if (event.keyCode == '65') {
+
+                                if (document.getElementById('Keyboards').style.display == 'block') {
+                                    keyboardEffect.createTutorial('83');
+                                } else if (document.getElementById('Keypads').style.display == 'block') {
+                                    keypadEffect.createTutorial('83');
+                                }
+
+                                document.getElementById('TutorialMsg').innerHTML = "Press 'S' to move backwards";
+
+                                document.onkeyup = function () {
+                                    event = window.event ? window.event : e;
+
+                                    if (event.keyCode == '83') {
+
+                                        if (document.getElementById('Keyboards').style.display == 'block') {
+                                            keyboardEffect.createTutorial('68');
+                                        } else if (document.getElementById('Keypads').style.display == 'block') {
+                                            keypadEffect.createTutorial('68');
+                                        }
+
+                                        document.getElementById('TutorialMsg').innerHTML = "Press 'D' to strafe right";
+
+                                        document.onkeyup = function () {
+                                            event = window.event ? window.event : e;
+                                            if (event.keyCode == '68') {
+
+                                                if (document.getElementById('Keyboards').style.display == 'block') {
+                                                    keyboardEffect.createTutorial('0');
+                                                } else if (document.getElementById('Keypads').style.display == 'block') {
+                                                    keypadEffect.createTutorial('0');
+                                                }
+
+                                                document.getElementById('TutorialMsg').innerHTML = "OK! You are ready to go!";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (document.getElementById('Keyboards').style.display == 'block') {
+                    keyboardEffect.createTutorial('0');
+                } else if (document.getElementById('Keypads').style.display == 'block') {
+                    keypadEffect.createTutorial('0');
+                }
+            }
+        }
+
+        function showAlert(type) {
+            if (document.getElementById('Keyboards').style.display == 'block') {
+                keyboardEffect.createAlerts(type);
+            } else if (document.getElementById('Mousemats').style.display == 'block') {
+                mousematEffect.createAlerts(type);
+            } else if (document.getElementById('Mice').style.display == 'block') {
+                mouseeffect.createAlerts(type);
+            } else if (document.getElementById('Headsets').style.display == 'block') {
+                headsetEffect.createAlerts(type);
+            } else if (document.getElementById('Keypads').style.display == 'block') {
+                keypadEffect.createAlerts(type);
+            } else if (document.getElementById('ChromaLinkedDevices').style.display == 'block') {
+                chromaLinkEffect.createAlerts(type);
+            }
+        }
+
+        function updateHealth(value) {
+            if (document.getElementById('Keyboards').style.display == 'block') {
+                keyboardEffect.createHealthAmmoMana(1, value);
+            } else if (document.getElementById('Mousemats').style.display == 'block') {
+                mousematEffect.createHealthAmmoMana(1, value);
+            } else if (document.getElementById('Mice').style.display == 'block') {
+                mouseeffect.createHealthAmmoMana(1, value);
+            } else if (document.getElementById('Headsets').style.display == 'block') {
+                headsetEffect.createHealthAmmoMana(1, value);
+            } else if (document.getElementById('Keypads').style.display == 'block') {
+                keypadEffect.createHealthAmmoMana(1, value);
+            } else if (document.getElementById('ChromaLinkedDevices').style.display == 'block') {
+                chromaLinkEffect.createHealthAmmoMana(1, value);
+            }
+        }
+
+        function updateAmmo(value) {
+            if (document.getElementById('Keyboards').style.display == 'block') {
+                keyboardEffect.createHealthAmmoMana(2, value);
+            } else if (document.getElementById('Mousemats').style.display == 'block') {
+                mousematEffect.createHealthAmmoMana(2, value);
+            } else if (document.getElementById('Mice').style.display == 'block') {
+                mouseeffect.createHealthAmmoMana(2, value);
+            } else if (document.getElementById('Headsets').style.display == 'block') {
+                headsetEffect.createHealthAmmoMana(2, value);
+            } else if (document.getElementById('Keypads').style.display == 'block') {
+                keypadEffect.createHealthAmmoMana(2, value);
+            } else if (document.getElementById('ChromaLinkedDevices').style.display == 'block') {
+                chromaLinkEffect.createHealthAmmoMana(2, value);
+            }
+        }
+
+        function updateCooldown(value) {
+            if (document.getElementById('Keyboards').style.display == 'block') {
+                keyboardEffect.createCooldownTimer(value);
+            } else if (document.getElementById('Mousemats').style.display == 'block') {
+                mousematEffect.createCooldownTimer(value);
+            } else if (document.getElementById('Mice').style.display == 'block') {
+
+            } else if (document.getElementById('Headsets').style.display == 'block') {
+
+            } else if (document.getElementById('Keypads').style.display == 'block') {
+                keypadEffect.createCooldownTimer(value);
+            } else if (document.getElementById('ChromaLinkedDevices').style.display == 'block') {
+
+            }
+        }
+
+    </script>
+</head>
+<body onload="chromaSDK.init()" onunload="chromaSDK.uninit()">
+    <div id="table" style="margin:auto; width:718px; padding:50px; text-align:center">
+        <div class="tab">
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'Keyboards')" id="defaultOpen">Keyboards</a>
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'Mousemats')">Mousemats</a>
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'Mice')">Mice</a>
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'Headsets')">Headsets</a>
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'Keypads')">Keypads</a>
+            <a href="javascript:void(0)" class="tablinks" onclick="showTab(event, 'ChromaLinkedDevices')">Chroma Linked Devices</a>
+        </div>
+
+        <div id="Keyboards" class="tabcontent">
+            <p><button onclick="keyboardEffect.createLoadingAnimation()">Loading Animation</button></p>
+            <p><button onclick="showTutorial(true)">Tutorial</button></p>
+            <p><button onclick="keyboardEffect.createActiveKeys()">Active Keys</button></p>
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="document.getElementById('CooldownTimerDlg').style.display = 'block'">Cooldown Timer</button></p>
+            <!--<p><button>Ambient Effect</button></p>-->
+            <p><button onclick="keyboardEffect.createDamagaTaken()">Damage Taken</button></p>
+        </div>
+
+        <div id="Mousemats" class="tabcontent">
+            <p><button onclick="mousematEffect.createLoadingAnimation()">Loading Animation</button></p>
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="document.getElementById('CooldownTimerDlg').style.display = 'block'">Cooldown Timer</button></p>
+            <p><button onclick="mousematEffect.createDamageTaken()">Damage Taken</button></p>
+        </div>
+
+        <div id="Mice" class="tabcontent">
+            <p><button onclick="mouseeffect.createLoadingAnimation()">Loading Animation</button></p>
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="mouseeffect.createDamageTaken()">Damage Taken</button></p>
+        </div>
+
+        <div id="Headsets" class="tabcontent">
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="headsetEffect.createDamageTaken()">Damage Taken</button></p>
+        </div>
+
+        <div id="Keypads" class="tabcontent">
+            <p><button onclick="keypadEffect.createLoadingAnimation()">Loading Animation</button></p>
+            <p><button onclick="showTutorial(true)">Tutorial</button></p>
+            <p><button onclick="keypadEffect.createActiveKeys()">Active Keys</button></p>
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="document.getElementById('CooldownTimerDlg').style.display = 'block'">Cooldown Timer</button></p>
+            <!--<p><button>Ambient Effect</button></p>-->
+            <p><button onclick="keypadEffect.createDamagaTaken()">Damage Taken</button></p>
+        </div>
+
+        <div id="ChromaLinkedDevices" class="tabcontent">
+            <p><button onclick="chromaLinkEffect.createLoadingAnimation()">Loading Animation</button></p>
+            <p><button onclick="document.getElementById('HealthAmmoDlg').style.display = 'block'">Health/Ammo/Mana</button></p>
+            <p><button onclick="document.getElementById('AlertDlg').style.display = 'block'">Alerts</button></p>
+            <p><button onclick="chromaLinkEffect.createDamageTaken()">Damage Taken</button></p>
+        </div>
+        <p>*Tested in IE 11</p>
+    </div>
+    <!-- Alert dialog -->
+    <div id="AlertDlg" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <!--onchange event works in IE and not in Chrome. oninput event works in Chrome but not in IE-->
+            <p><button onclick="showAlert(1)">Positive Alert</button></p>
+            <p><button onclick="showAlert(0)">Negative Alert</button></p>
+        </div>
+    </div>
+    <div id="HealthAmmoDlg" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <!--onchange event works in IE and not in Chrome. oninput event works in Chrome but not in IE-->
+            <p>Health <input type="range" id="Health" value="0" style="width:300px" onchange="updateHealth(this.value)"/></p>
+            <p>Ammo <input type="range" id="Ammo" value="0" style="width:300px" onchange="updateAmmo(this.value)"/></p>
+        </div>
+    </div>
+    <div id="CooldownTimerDlg" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <!--onchange event works in IE and not in Chrome. oninput event works in Chrome but not in IE-->
+            <p>Cooldown Timer <input type="range" id="Cooldown" value="0" style="width:300px" onchange="updateCooldown(this.value)" /></p>
+        </div>
+    </div>
+    <div id="TutorialDlg" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <!--onchange event works in IE and not in Chrome. oninput event works in Chrome but not in IE-->
+            <p id="TutorialMsg">Press 'W' to move forward</p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(evt, deviceName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(deviceName).style.display = "block";
+            evt.currentTarget.className += " active";
+
+            keyboardEffect.free();
+            mouseeffect.free();
+            mousematEffect.free();
+            headsetEffect.free();
+            keypadEffect.free();
+            chromaLinkEffect.free();
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>
