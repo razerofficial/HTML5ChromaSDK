@@ -15,6 +15,15 @@ var EChromaSDKDevice2DEnum = {
   'DE_Mouse': 2
 };
 
+var EChromaSDKDeviceEnum = {
+  'DE_ChromaLink': 0,
+  'DE_Headset': 1,
+  'DE_Keyboard': 2,
+  'DE_Keypad': 3,
+  'DE_Mouse': 4,
+  'DE_Mousepad': 5
+};
+
 function ChromaAnimationFrame1D() {
     var Duration = 0.1;
     var Colors = undefined;
@@ -132,6 +141,21 @@ var ChromaAnimation = {
   stopAnimation: function(animationName) {
     if (this.LoadedAnimations[animationName] != undefined) {
       this.LoadedAnimations[animationName].stop();
+    }
+  },
+  staticColor: function (device, color) {
+    if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
+        chromaSDK.createChromaLinkEffect("CHROMA_STATIC", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
+      chromaSDK.createHeadsetEffect("CHROMA_STATIC", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keyboard) {
+      chromaSDK.createKeyboardEffect("CHROMA_STATIC", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keypad) {
+      chromaSDK.createKeypadEffect("CHROMA_STATIC", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mouse) {
+      chromaSDK.createMouseEffect("CHROMA_STATIC", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mousepad) {
+      chromaSDK.createMousematEffect("CHROMA_STATIC", color);
     }
   }
 };

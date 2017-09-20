@@ -14,22 +14,35 @@ function onPageLoad() {
 </script>
 
 <body onload="onPageLoad()" onunload="chromaSDK.uninit()">
+
+<h1>Animations:</h1>
+
 <button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma');">Play ChromaLink Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_ChromaLink.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_ChromaLink.chroma');">Stop</button><br>
 
 <button onclick="ChromaAnimation.playAnimation('Random_Headset.chroma');">Play Headset Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Headset.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_Headset.chroma');">Stop</button><br>
 
 <button onclick="ChromaAnimation.playAnimation('Random_Keyboard.chroma');">Play Keyboard Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Keyboard.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_Keyboard.chroma');">Stop</button><br>
 
 <button onclick="ChromaAnimation.playAnimation('Random_Keypad.chroma');">Play Keypad Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Keypad.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_Keypad.chroma');">Stop</button><br>
 
 <button onclick="ChromaAnimation.playAnimation('Random_Mouse.chroma');">Play Mouse Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Mouse.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_Mouse.chroma');">Stop</button><br>
 
 <button onclick="ChromaAnimation.playAnimation('Random_Mousepad.chroma');">Play Mousepad Animation</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Mousepad.chroma');">Stop</button><br />
+<button onclick="ChromaAnimation.stopAnimation('Random_Mousepad.chroma');">Stop</button><br>
+
+<h1>Static Color:</h1>
+
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, 0xFF);">ChromaLink Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, 0xFF00);">Headset Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, 0xFF0000);">Keyboard Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, 0xFF00FF);">Keypad Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, 0xFFFF00);">Mouse Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, 0x00FFFF);">Mousepad Static Color</button><br>
+
 </body>
 </html>
