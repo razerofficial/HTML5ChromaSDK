@@ -145,7 +145,7 @@ var ChromaAnimation = {
   },
   staticColor: function (device, color) {
     if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
-        chromaSDK.createChromaLinkEffect("CHROMA_STATIC", color);
+      chromaSDK.createChromaLinkEffect("CHROMA_STATIC", color);
     } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
       chromaSDK.createHeadsetEffect("CHROMA_STATIC", color);
     } else if (device == EChromaSDKDeviceEnum.DE_Keyboard) {
@@ -156,6 +156,21 @@ var ChromaAnimation = {
       chromaSDK.createMouseEffect("CHROMA_STATIC", color);
     } else if (device == EChromaSDKDeviceEnum.DE_Mousepad) {
       chromaSDK.createMousematEffect("CHROMA_STATIC", color);
+    }
+  },
+  clear: function (device, color) {
+    if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
+      chromaSDK.createChromaLinkEffect("CHROMA_NONE", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
+      chromaSDK.createHeadsetEffect("CHROMA_NONE", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keyboard) {
+      chromaSDK.createKeyboardEffect("CHROMA_NONE", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keypad) {
+      chromaSDK.createKeypadEffect("CHROMA_NONE", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mouse) {
+      chromaSDK.createMouseEffect("CHROMA_NONE", color);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mousepad) {
+      chromaSDK.createMousematEffect("CHROMA_NONE", color);
     }
   }
 };
