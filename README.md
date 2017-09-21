@@ -137,7 +137,11 @@ ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);
 The `staticColor` method will set the `Chroma` lighting to all the same color for the device, given a color.
 
 ```js
-var color = 0xFF;
+var red = 0xFF;
+var green = 0xFF00
+var blue = 0xFF0000;
+var white = 0xFFFFFF;
+var color = white;
 ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, color);
 ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, color);
 ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, color);
