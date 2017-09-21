@@ -50,16 +50,16 @@ ChromaSDK.prototype = {
 
         request.onreadystatechange = function () {
             if (request.readyState == 4 && request.responseText != undefined && request.responseText != "") {
-                this.uri = JSON.parse(request.responseText)["uri"];
+                uri = JSON.parse(request.responseText)["uri"];
                 //console.log(uri);
-                this.timerId = setInterval(onTimer, 10000);
+                timerId = setInterval(onTimer, 10000);
             }
         }
     },
     uninit: function () {
         var request = new XMLHttpRequest();
 
-        request.open("DELETE", this.uri, true);
+        request.open("DELETE", uri, true);
 
         request.setRequestHeader("content-type", "application/json");
 
@@ -71,7 +71,7 @@ ChromaSDK.prototype = {
             }
         }
 
-        clearInterval(this.timerId);
+        clearInterval(timerId);
     },
     createKeyboardEffect: function (effect, data) {
         var jsonObj;
