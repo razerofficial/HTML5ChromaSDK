@@ -155,7 +155,7 @@ ChromaAnimation.playAnimation('Random_ChromaLink.chroma');
 ChromaAnimation.playAnimation('Random_Headset.chroma');
 ChromaAnimation.playAnimation('Random_Keyboard.chroma');
 ChromaAnimation.playAnimation('Random_Keypad.chroma');
-ChromaAnimation.playAnimation('Random_Mouse.chroma');"
+ChromaAnimation.playAnimation('Random_Mouse.chroma');
 ChromaAnimation.playAnimation('Random_Mousepad.chroma');
 ```
 
