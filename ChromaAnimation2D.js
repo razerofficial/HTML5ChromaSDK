@@ -2,6 +2,7 @@ function ChromaAnimation2D() {
   var Device;
   var Frames = [];
   var CurrentIndex = 0;
+  var Loop = false;
   var PlayTimeout = undefined;
 }
 
@@ -12,25 +13,19 @@ ChromaAnimation2D.prototype = {
     readSize = 1;
     var device = new Uint8Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
     readIndex += readSize;
-    //console.log('device:');
-    //console.log(device);
-
-    ChromaAnimation.displayInfo('Device: '+device);
+    //console.log('device:', device);
     this.Device = device;
 
     readSize = 4;
     var frameCount = new Uint32Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
     readIndex += readSize;
-    //console.log('frameCount:');
-    //console.log(frameCount);
-
-    ChromaAnimation.displayInfo('Frame Count: '+frameCount);
+    //console.log('frameCount:', frameCount);
 
     var maxRow = ChromaAnimation.getMaxRow(device);
-    ChromaAnimation.displayInfo('Max Row: '+maxRow);
+    //console.log('maxRow:', maxRow);
 
     var maxColumn = ChromaAnimation.getMaxColumn(device);
-    ChromaAnimation.displayInfo('Max Column: '+maxColumn);
+    //console.log('maxColumn:', maxColumn);
 
     var frames = [];
 
@@ -48,7 +43,7 @@ ChromaAnimation2D.prototype = {
 
       frame.Duration = duration;
 
-      ChromaAnimation.displayInfo('Frame '+index+': duration='+duration);
+      //console.log('Frame '+index+': duration='+duration);
 
       readSize = 4 * maxRow * maxColumn;
       var colors = new Uint32Array(arrayBuffer.slice(readIndex, readIndex+readSize));
@@ -88,7 +83,7 @@ ChromaAnimation2D.prototype = {
     if (this.CurrentIndex < this.Frames.length) {
       var duration = this.getDuration();
       if (duration > 0) {
-        console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
+        //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
 
         if (this.Device == EChromaSDKDevice2DEnum.DE_Keyboard) {
           chromaSDK.createKeyboardEffect("CHROMA_CUSTOM", this.getFrame().Colors);
@@ -104,8 +99,11 @@ ChromaAnimation2D.prototype = {
         ++this.CurrentIndex;
       }
     } else {
-      console.log('Animation complete.');
+      //console.log('Animation complete.');
       this.PlayTimeout = undefined;
+      if (this.Loop) {
+        this.play(this.Loop);
+      }
     }
   },
   stop: function () {
@@ -114,9 +112,10 @@ ChromaAnimation2D.prototype = {
       this.PlayTimeout = undefined;
     }
   },
-  play: function () {
+  play: function (loop) {
     this.stop();
     this.CurrentIndex = 0;
+	this.Loop = loop;
     this.playFrame();
   }
 };

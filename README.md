@@ -152,15 +152,16 @@ ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, color);
 
 **Play Animation**
 
-The `playAnimation` method will play a `Chroma` animation file.
+The `playAnimation` method will play a `Chroma` animation file. With `loop` set to `true`, the animation will repeat. With `loop` set to `false`, the animation will play once.
 
 ```js
-ChromaAnimation.playAnimation('Random_ChromaLink.chroma');
-ChromaAnimation.playAnimation('Random_Headset.chroma');
-ChromaAnimation.playAnimation('Random_Keyboard.chroma');
-ChromaAnimation.playAnimation('Random_Keypad.chroma');
-ChromaAnimation.playAnimation('Random_Mouse.chroma');
-ChromaAnimation.playAnimation('Random_Mousepad.chroma');
+var loop = true;
+ChromaAnimation.playAnimation('Random_ChromaLink.chroma', loop);
+ChromaAnimation.playAnimation('Random_Headset.chroma', loop);
+ChromaAnimation.playAnimation('Random_Keyboard.chroma', loop);
+ChromaAnimation.playAnimation('Random_Keypad.chroma', loop);
+ChromaAnimation.playAnimation('Random_Mouse.chroma', loop);
+ChromaAnimation.playAnimation('Random_Mousepad.chroma', loop);
 ```
 
 **Stop Animation**

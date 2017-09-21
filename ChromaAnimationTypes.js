@@ -36,10 +36,6 @@ function ChromaAnimationFrame2D() {
 
 var ChromaAnimation = {
   LoadedAnimations: {},
-  displayInfo: function(msg) {
-    //document.write(msg + '<br />');
-    console.log(msg);
-  },
   getMaxLeds : function(device) {
     if (device == EChromaSDKDevice1DEnum.DE_ChromaLink) {
       return 5;
@@ -48,7 +44,7 @@ var ChromaAnimation = {
     } else if (device == EChromaSDKDevice1DEnum.DE_Mousepad) {
       return 15;
     } else {
-      console.log('Invalid device!');
+      console.log('getMaxLeds: Invalid device!');
       return undefined;
     }
   },
@@ -60,7 +56,7 @@ var ChromaAnimation = {
     } else if (device == EChromaSDKDevice2DEnum.DE_Mouse) {
       return 9;
     } else {
-      console.log('Invalid device!');
+      console.log('getMaxRow: Invalid device!');
       return undefined;
     }
   },
@@ -72,7 +68,7 @@ var ChromaAnimation = {
      	} else if (device == EChromaSDKDevice2DEnum.DE_Mouse) {
       return 7;
     } else {
-      console.log('Invalid device!');
+      console.log('getMaxColumn: Invalid device!');
       return undefined;
     }
   },
@@ -81,7 +77,7 @@ var ChromaAnimation = {
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
-        ChromaAnimation.displayInfo('Animation Name: '+animationName);
+        //console.log('Animation Name:', animationName);
 
         var arrayBuffer = xhr.response;
         //console.log('Array Buffer:');
@@ -91,21 +87,17 @@ var ChromaAnimation = {
         var readSize = 4;
         var version = new Uint32Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
         readIndex += readSize;
-        //console.log('version:');
-        //console.log(version);
-        ChromaAnimation.displayInfo('Version: '+version);
+        //console.log('version:', version);
 
         if (version != 1) {
-          console.log('Unsupported version!');
+          console.log('openAnimation: Unsupported version!');
           return undefined;
         }
 
         readSize = 1;
         var deviceType = new Uint8Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
         readIndex += readSize;
-        //console.log('deviceType:');
-        //console.log(deviceType);
-        ChromaAnimation.displayInfo('Device Type: '+deviceType);
+        //console.log('deviceType:', deviceType);
 
         if (deviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
           var animation = new ChromaAnimation1D();
@@ -125,17 +117,17 @@ var ChromaAnimation = {
     xhr.responseType = "arraybuffer";
     xhr.send('');
   },
-  playAnimation: function(animationName) {
+  playAnimation: function(animationName, loop) {
     if (this.LoadedAnimations[animationName] == undefined) {
       var refThis = this;
       ChromaAnimation.openAnimation(animationName,
         function (animation) {
           refThis.LoadedAnimations[animationName] = animation;
-          console.log(animation);
-          animation.play();
+          //console.log(animation);
+          animation.play(loop);
         });
     } else {
-      this.LoadedAnimations[animationName].play();
+      this.LoadedAnimations[animationName].play(loop);
     }
   },
   stopAnimation: function(animationName) {

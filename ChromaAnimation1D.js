@@ -2,6 +2,7 @@ function ChromaAnimation1D() {
   var Device;
   var Frames = [];
   var CurrentIndex = 0;
+  var Loop = true;
   var PlayTimeout = undefined;
 }
 
@@ -12,22 +13,16 @@ ChromaAnimation1D.prototype = {
     readSize = 1;
     var device = new Uint8Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
     readIndex += readSize;
-    //console.log('device:');
-    //console.log(device);
-
-    ChromaAnimation.displayInfo('Device: '+device);
+    //console.log('device:', device);
     this.Device = device;
 
     readSize = 4;
     var frameCount = new Uint32Array(arrayBuffer.slice(readIndex, readIndex+readSize))[0];
     readIndex += readSize;
-    //console.log('frameCount:');
-    //console.log(frameCount);
-
-    ChromaAnimation.displayInfo('Frame Count: '+frameCount);
+    //console.log('frameCount:', frameCount);
 
     var maxLeds = ChromaAnimation.getMaxLeds(device);
-    ChromaAnimation.displayInfo('Max Leds: '+maxLeds);
+    //console.log('maxLeds:', maxLeds);
 
     var frames = [];
 
@@ -45,7 +40,7 @@ ChromaAnimation1D.prototype = {
 
       frame.Duration = duration;
 
-      ChromaAnimation.displayInfo('Frame '+index+': duration='+duration);
+      //console.log('Frame '+index+': duration='+duration);
 
       readSize = 4 * maxLeds;
       var colors = new Uint32Array(arrayBuffer.slice(readIndex, readIndex+readSize));
@@ -82,7 +77,7 @@ ChromaAnimation1D.prototype = {
     if (this.CurrentIndex < this.Frames.length) {
       var duration = this.getDuration();
       if (duration > 0) {
-        console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
+        //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
 
         if (this.Device == EChromaSDKDevice1DEnum.DE_ChromaLink) {
           chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM", this.getFrame().Colors);
@@ -98,8 +93,11 @@ ChromaAnimation1D.prototype = {
         ++this.CurrentIndex;
       }
     } else {
-      console.log('Animation complete.');
+      //console.log('Animation complete.');
       this.PlayTimeout = undefined;
+      if (this.Loop) {
+        this.play(this.Loop);
+      }
     }
   },
   stop: function () {
@@ -108,9 +106,10 @@ ChromaAnimation1D.prototype = {
       this.PlayTimeout = undefined;
     }
   },
-  play: function () {
+  play: function (loop) {
     this.stop();
     this.CurrentIndex = 0;
+    this.Loop = loop;
     this.playFrame();
   }
 };

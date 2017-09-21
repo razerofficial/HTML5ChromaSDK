@@ -16,7 +16,7 @@ function onTimer() {
 
     request.onreadystatechange = function () {
         if ((request.readyState == 4) && (request.status == 200)){
-            console.log(request.responseText);
+            //console.log(request.responseText);
         }
     }
 }
@@ -51,7 +51,7 @@ ChromaSDK.prototype = {
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
                 uri = JSON.parse(request.responseText)["uri"];
-                console.log(uri);
+                //console.log(uri);
                 timerId = setInterval(onTimer, 10000);
             }
         }
@@ -67,7 +67,7 @@ ChromaSDK.prototype = {
 
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
-                console.log(request.responseText);
+                //console.log(request.responseText);
             }
         }
 
@@ -87,7 +87,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": data });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -97,7 +97,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateKeyboardEffect: function (effect, data) {
         var jsonObj;
@@ -113,7 +113,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": data });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -123,9 +123,9 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log(request.responseText);
+        //console.log(request.responseText);
 
-        console.log('preCreateKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
@@ -141,7 +141,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -151,7 +151,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateMousematEffect: function (effect, data) {
         var jsonObj;
@@ -165,7 +165,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -175,7 +175,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('preCreateMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
@@ -191,7 +191,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -201,7 +201,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateMouseEffect: function (effect, data) {
         var jsonObj;
@@ -215,7 +215,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -225,7 +225,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('preCreateMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
@@ -241,7 +241,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -251,7 +251,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateHeadsetEffect: function (effect, data) {
         var jsonObj;
@@ -265,7 +265,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -275,7 +275,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('preCreateHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
@@ -291,7 +291,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -301,7 +301,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateKeypadEffect: function (effect, data) {
         var jsonObj;
@@ -315,7 +315,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -325,7 +325,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('preCreateKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
@@ -341,7 +341,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -351,7 +351,7 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('createChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('createChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     preCreateChromaLinkEffect: function (effect, data) {
         var jsonObj;
@@ -365,7 +365,7 @@ ChromaSDK.prototype = {
             jsonObj = JSON.stringify({ "effect": effect, "param": color });
         }
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -375,14 +375,14 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('preCreateChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('preCreateChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
         return JSON.parse(request.responseText)['id'];
     },
     setEffect: function (id) {
         var jsonObj = JSON.stringify({ "id": id });
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -392,12 +392,12 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('setEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('setEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     deleteEffect: function (id) {
         var jsonObj = JSON.stringify({ "id": id });
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -407,12 +407,12 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('deleteEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
+        //console.log('deleteEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
     },
     deleteEffectGroup: function (ids) {
         var jsonObj = ids;
 
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         var request = new XMLHttpRequest();
 
@@ -422,6 +422,6 @@ ChromaSDK.prototype = {
 
         request.send(jsonObj);
 
-        console.log('deleteEffectGroup() returns ' + JSON.parse(request.responseText));
+        //console.log('deleteEffectGroup() returns ' + JSON.parse(request.responseText));
     }
 }
