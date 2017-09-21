@@ -87,3 +87,87 @@ This library supports the `Chroma` animation exports from [UE4](https://github.c
 
 <a name="api"></a>
 ## API
+
+**Initialization**
+
+Include the `JS` includes to get access to the `API`.
+
+```js
+<html>
+<head>
+<script src="ChromaSDKImpl.js"></script>
+<script src="ChromaAnimationTypes.js"></script>
+<script src="ChromaAnimation1D.js"></script>
+<script src="ChromaAnimation2D.js"></script>
+</head>
+</html>
+```
+
+Initialize/Uninitialize the `Chroma` SDK from the body events.
+
+```js
+var chromaSDK = undefined;
+function onPageLoad() {
+  chromaSDK = new ChromaSDK();
+  chromaSDK.init();
+}
+function onPageUnload() {
+  if (chromaSDK != undefined) {
+    chromaSDK.uninit()
+  }
+}
+<body onload="onPageLoad()" onunload="onPageUnload()">
+```
+
+**Clear**
+
+The `clear` method will turn off the lighting effect for a device.
+
+```js
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_ChromaLink);
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Headset);
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keyboard);
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keypad);
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mouse);
+ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);
+```
+
+**Static Color**
+
+The `staticColor` method will set the `Chroma` lighting to all the same color for the device, given a color.
+
+```js
+var color = 0xFF;
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, color);
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, color);
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, color);
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, color);
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, color);
+ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, color);
+```
+
+**Play Animation**
+
+The `playAnimation` method will play a `Chroma` animation file.
+
+```js
+ChromaAnimation.playAnimation('Random_ChromaLink.chroma');
+ChromaAnimation.playAnimation('Random_Headset.chroma');
+ChromaAnimation.playAnimation('Random_Keyboard.chroma');
+ChromaAnimation.playAnimation('Random_Keypad.chroma');
+ChromaAnimation.playAnimation('Random_Mouse.chroma');"
+ChromaAnimation.playAnimation('Random_Mousepad.chroma');
+```
+
+**Stop Animation**
+
+The `stopAnimation` method will stop playing a `Chroma` animation file.
+
+```js
+ChromaAnimation.stopAnimation('Random_ChromaLink.chroma');
+ChromaAnimation.stopAnimation('Random_Headset.chroma');
+ChromaAnimation.stopAnimation('Random_Keyboard.chroma');
+ChromaAnimation.stopAnimation('Random_Keypad.chroma');
+ChromaAnimation.stopAnimation('Random_Mouse.chroma');
+ChromaAnimation.stopAnimation('Random_Mousepad.chroma');
+```

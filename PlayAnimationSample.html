@@ -11,9 +11,14 @@ function onPageLoad() {
   chromaSDK = new ChromaSDK();
   chromaSDK.init();
 }
+function onPageUnload() {
+  if (chromaSDK != undefined) {
+    chromaSDK.uninit()
+  }
+}
 </script>
 
-<body onload="onPageLoad()" onunload="chromaSDK.uninit()">
+<body onload="onPageLoad()" onunload="onPageUnload()">
 
 <h1>Animations:</h1>
 
