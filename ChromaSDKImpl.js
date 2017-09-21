@@ -1,8 +1,8 @@
 // JavaScript source code
 
 function ChromaSDK() {
-    var uri;
-    var timerId;
+    var uri = undefined;
+    var timerId = undefined;
 }
 
 function onTimer() {
@@ -49,17 +49,17 @@ ChromaSDK.prototype = {
         request.send(data);
 
         request.onreadystatechange = function () {
-            if (request.readyState == 4) {
-                uri = JSON.parse(request.responseText)["uri"];
+            if (request.readyState == 4 && request.responseText != undefined && request.responseText != "") {
+                this.uri = JSON.parse(request.responseText)["uri"];
                 //console.log(uri);
-                timerId = setInterval(onTimer, 10000);
+                this.timerId = setInterval(onTimer, 10000);
             }
         }
     },
     uninit: function () {
         var request = new XMLHttpRequest();
 
-        request.open("DELETE", uri, true);
+        request.open("DELETE", this.uri, true);
 
         request.setRequestHeader("content-type", "application/json");
 
@@ -71,7 +71,7 @@ ChromaSDK.prototype = {
             }
         }
 
-        clearInterval(timerId);
+        clearInterval(this.timerId);
     },
     createKeyboardEffect: function (effect, data) {
         var jsonObj;
