@@ -106,6 +106,7 @@ Include the `JS` includes to get access to the `API`.
 Initialize/Uninitialize the `Chroma` SDK from the body events.
 
 ```js
+<script>
 var chromaSDK = undefined;
 function onPageLoad() {
   chromaSDK = new ChromaSDK();
@@ -116,6 +117,7 @@ function onPageUnload() {
     chromaSDK.uninit()
   }
 }
+</script>
 <body onload="onPageLoad()" onunload="onPageUnload()">
 ```
 
