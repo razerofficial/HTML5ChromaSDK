@@ -135,6 +135,22 @@ var ChromaAnimation = {
       this.LoadedAnimations[animationName].stop();
     }
   },
+  playComposite: function(animationName, loop) {
+    this.playAnimation(animationName + "_ChromaLink.chroma", loop);
+    this.playAnimation(animationName + "_Headset.chroma", loop);
+    this.playAnimation(animationName + "_Keyboard.chroma", loop);
+    this.playAnimation(animationName + "_Keypad.chroma", loop);
+    this.playAnimation(animationName + "_Mouse.chroma", loop);
+    this.playAnimation(animationName + "_Mousepad.chroma", loop);
+  },
+  stopComposite: function(animationName) {
+    this.stopAnimation(animationName + "_ChromaLink.chroma");
+    this.stopAnimation(animationName + "_Headset.chroma");
+    this.stopAnimation(animationName + "_Keyboard.chroma");
+    this.stopAnimation(animationName + "_Keypad.chroma");
+    this.stopAnimation(animationName + "_Mouse.chroma");
+    this.stopAnimation(animationName + "_Mousepad.chroma");
+  },
   staticColor: function (device, color) {
     if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
       chromaSDK.createChromaLinkEffect("CHROMA_STATIC", color);

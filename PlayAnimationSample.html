@@ -20,6 +20,12 @@ function onPageUnload() {
 
 <body onload="onPageLoad()" onunload="onPageUnload()">
 
+<h1>Composites:</h1>
+
+<button onclick="ChromaAnimation.playComposite('Random', false);">Play Composite</button>
+<button onclick="ChromaAnimation.playComposite('Random', true);">Loop</button>
+<button onclick="ChromaAnimation.stopComposite('Random');">Stop</button><br>
+
 <h1>Animations:</h1>
 
 <button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma', false);">Play ChromaLink Animation</button>
