@@ -57,7 +57,7 @@ ChromaSDK.prototype = {
             if (request.readyState == 4 && request.responseText != undefined && request.responseText != "") {
                 uri = JSON.parse(request.responseText)["uri"];
                 //console.log(uri);
-                timerId = setInterval(onTimer, 10000);
+                timerId = setInterval(onTimer, 1000);
             }
         }
 		}, 0);
