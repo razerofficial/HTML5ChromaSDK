@@ -175,3 +175,20 @@ ChromaAnimation.stopAnimation('Random_Keypad.chroma');
 ChromaAnimation.stopAnimation('Random_Mouse.chroma');
 ChromaAnimation.stopAnimation('Random_Mousepad.chroma');
 ```
+
+**Play Composite**
+
+The `playComposite` method will play a set of `Chroma` animation files. With `loop` set to `true`, the animations will repeat. With `loop` set to `false`, the animations will play once.
+
+```js
+var loop = true;
+ChromaAnimation.playComposite('Random', loop);
+
+// playComposite will play the set of animations
+//ChromaAnimation.playAnimation('Random_ChromaLink.chroma', loop);
+//ChromaAnimation.playAnimation('Random_Headset.chroma', loop);
+//ChromaAnimation.playAnimation('Random_Keyboard.chroma', loop);
+//ChromaAnimation.playAnimation('Random_Keypad.chroma', loop);
+//ChromaAnimation.playAnimation('Random_Mouse.chroma', loop);
+//ChromaAnimation.playAnimation('Random_Mousepad.chroma', loop);
+```
