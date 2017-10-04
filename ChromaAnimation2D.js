@@ -7,6 +7,8 @@ function ChromaAnimation2D() {
 }
 
 ChromaAnimation2D.prototype = {
+	
+  DeviceType: EChromaSDKDeviceTypeEnum.DE_2D,
 
   openAnimation: function(arrayBuffer, readIndex) {
 
@@ -82,27 +84,26 @@ ChromaAnimation2D.prototype = {
   playFrame: function() {
     if (this.CurrentIndex < this.Frames.length) {
       var duration = this.getDuration();
-      if (duration > 0) {
-        //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
+      //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
 
-        if (this.Device == EChromaSDKDevice2DEnum.DE_Keyboard) {
-          chromaSDK.createKeyboardEffect("CHROMA_CUSTOM", this.getFrame().Colors);
-        } else if (this.Device == EChromaSDKDevice2DEnum.DE_Keypad) {
-          chromaSDK.createKeypadEffect("CHROMA_CUSTOM", this.getFrame().Colors);
-        } else if (this.Device == EChromaSDKDevice2DEnum.DE_Mouse) {
-          chromaSDK.createMouseEffect("CHROMA_CUSTOM2", this.getFrame().Colors);
-        }
-		  
-        // schedule next frame
-        var refThis = this;
-        this.PlayTimeout = setTimeout(function(animation) { refThis.playFrame(); }, duration * 1000);
-        ++this.CurrentIndex;
+      if (this.Device == EChromaSDKDevice2DEnum.DE_Keyboard) {
+        chromaSDK.createKeyboardEffect("CHROMA_CUSTOM", this.getFrame().Colors);
+      } else if (this.Device == EChromaSDKDevice2DEnum.DE_Keypad) {
+        chromaSDK.createKeypadEffect("CHROMA_CUSTOM", this.getFrame().Colors);
+      } else if (this.Device == EChromaSDKDevice2DEnum.DE_Mouse) {
+        chromaSDK.createMouseEffect("CHROMA_CUSTOM2", this.getFrame().Colors);
       }
+	  
+      // schedule next frame
+      var refThis = this;
+      this.PlayTimeout = setTimeout(function() { refThis.playFrame(); }, duration * 1000);
+      ++this.CurrentIndex;
     } else {
       //console.log('Animation complete.');
-      this.PlayTimeout = undefined;
       if (this.Loop) {
         this.play(this.Loop);
+      } else {
+        this.stop();
       }
     }
   },
@@ -110,12 +111,16 @@ ChromaAnimation2D.prototype = {
     if (this.PlayTimeout != undefined) {
       clearTimeout(this.PlayTimeout);
       this.PlayTimeout = undefined;
+	  //console.log('stop:', this.Name);
     }
+    this.CurrentIndex = 0;
+    this.Loop = false;
   },
   play: function (loop) {
     this.stop();
     this.CurrentIndex = 0;
 	this.Loop = loop;
+	//console.log('play:', this.Name);
     this.playFrame();
   }
 };

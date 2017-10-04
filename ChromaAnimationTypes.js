@@ -36,6 +36,8 @@ function ChromaAnimationFrame2D() {
 
 var ChromaAnimation = {
   LoadedAnimations: {},
+  LoadedAnimations1D: {},
+  LoadedAnimations2D: {},
   getMaxLeds : function(device) {
     if (device == EChromaSDKDevice1DEnum.DE_ChromaLink) {
       return 5;
@@ -102,10 +104,12 @@ var ChromaAnimation = {
         if (deviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
           var animation = new ChromaAnimation1D();
           animation.openAnimation(arrayBuffer, readIndex);
+		  animation.Name = animationName;
           callback(animation);
         } else if (deviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
           var animation = new ChromaAnimation2D();
           animation.openAnimation(arrayBuffer, readIndex);
+		  animation.Name = animationName;
           callback(animation);
         } else {
           callback(undefined);
@@ -117,6 +121,21 @@ var ChromaAnimation = {
     xhr.responseType = "arraybuffer";
     xhr.send('');
   },
+  stopByAnimationType: function(animation) {
+    //1D
+    if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
+      if (this.LoadedAnimations1D[animation.Device] != undefined) {
+        this.LoadedAnimations1D[animation.Device].stop();
+      }
+      this.LoadedAnimations1D[animation.Device] = animation;
+    //2D
+    } else if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
+      if (this.LoadedAnimations2D[animation.Device] != undefined) {
+        this.LoadedAnimations2D[animation.Device].stop();
+      }
+      this.LoadedAnimations2D[animation.Device] = animation;
+    }
+  },
   playAnimation: function(animationName, loop) {
     if (this.LoadedAnimations[animationName] == undefined) {
       var refThis = this;
@@ -124,10 +143,15 @@ var ChromaAnimation = {
         function (animation) {
           refThis.LoadedAnimations[animationName] = animation;
           //console.log(animation);
-          animation.play(loop);
+		  refThis.stopByAnimationType(animation, loop);
+		  //console.log('playAnimation:', animationName);
+		  animation.play(loop);
         });
     } else {
-      this.LoadedAnimations[animationName].play(loop);
+      var animation = this.LoadedAnimations[animationName];
+      this.stopByAnimationType(animation, loop);
+	  //console.log('playAnimation:', animationName);
+      animation.play(loop);
     }
   },
   stopAnimation: function(animationName) {
@@ -166,19 +190,19 @@ var ChromaAnimation = {
       chromaSDK.createMousematEffect("CHROMA_STATIC", color);
     }
   },
-  clear: function (device, color) {
+  clear: function (device) {
     if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
-      chromaSDK.createChromaLinkEffect("CHROMA_NONE", color);
+      chromaSDK.createChromaLinkEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
-      chromaSDK.createHeadsetEffect("CHROMA_NONE", color);
+      chromaSDK.createHeadsetEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Keyboard) {
-      chromaSDK.createKeyboardEffect("CHROMA_NONE", color);
+      chromaSDK.createKeyboardEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Keypad) {
-      chromaSDK.createKeypadEffect("CHROMA_NONE", color);
+      chromaSDK.createKeypadEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Mouse) {
-      chromaSDK.createMouseEffect("CHROMA_NONE", color);
+      chromaSDK.createMouseEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Mousepad) {
-      chromaSDK.createMousematEffect("CHROMA_NONE", color);
+      chromaSDK.createMousematEffect("CHROMA_NONE");
     }
   }
 };

@@ -7,6 +7,8 @@ function ChromaAnimation1D() {
 }
 
 ChromaAnimation1D.prototype = {
+	
+  DeviceType: EChromaSDKDeviceTypeEnum.DE_1D,
 
   openAnimation: function(arrayBuffer, readIndex) {
 
@@ -76,27 +78,26 @@ ChromaAnimation1D.prototype = {
   playFrame: function() {
     if (this.CurrentIndex < this.Frames.length) {
       var duration = this.getDuration();
-      if (duration > 0) {
-        //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
+      //console.log('Play Frame: '+this.CurrentIndex+' of: '+this.Frames.length+' Duration: '+duration);
 
-        if (this.Device == EChromaSDKDevice1DEnum.DE_ChromaLink) {
-          chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM", this.getFrame().Colors);
-        } else if (this.Device == EChromaSDKDevice1DEnum.DE_Headset) {
-          chromaSDK.createHeadsetEffect("CHROMA_CUSTOM", this.getFrame().Colors);
-        } else if (this.Device == EChromaSDKDevice1DEnum.DE_Mousepad) {
-          chromaSDK.createMousematEffect("CHROMA_CUSTOM", this.getFrame().Colors);
-        }
-		  
-        // schedule next frame
-        var refThis = this;
-        this.PlayTimeout = setTimeout(function(animation) { refThis.playFrame(); }, duration * 1000);
-        ++this.CurrentIndex;
+      if (this.Device == EChromaSDKDevice1DEnum.DE_ChromaLink) {
+        chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM", this.getFrame().Colors);
+      } else if (this.Device == EChromaSDKDevice1DEnum.DE_Headset) {
+        chromaSDK.createHeadsetEffect("CHROMA_CUSTOM", this.getFrame().Colors);
+      } else if (this.Device == EChromaSDKDevice1DEnum.DE_Mousepad) {
+        chromaSDK.createMousematEffect("CHROMA_CUSTOM", this.getFrame().Colors);
       }
+		  
+      // schedule next frame
+      var refThis = this;
+      this.PlayTimeout = setTimeout(function() { refThis.playFrame(); }, duration * 1000);
+      ++this.CurrentIndex;
     } else {
       //console.log('Animation complete.');
-      this.PlayTimeout = undefined;
       if (this.Loop) {
         this.play(this.Loop);
+      } else {
+        this.stop();
       }
     }
   },
@@ -104,12 +105,16 @@ ChromaAnimation1D.prototype = {
     if (this.PlayTimeout != undefined) {
       clearTimeout(this.PlayTimeout);
       this.PlayTimeout = undefined;
+	  //console.log('stop:', this.Name);
     }
+    this.CurrentIndex = 0;
+    this.Loop = false;
   },
   play: function (loop) {
     this.stop();
     this.CurrentIndex = 0;
     this.Loop = loop;
+	//console.log('play:', this.Name);
     this.playFrame();
   }
 };

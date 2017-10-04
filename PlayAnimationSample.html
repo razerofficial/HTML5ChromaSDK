@@ -4,7 +4,6 @@
 <script src="ChromaAnimationTypes.js"></script>
 <script src="ChromaAnimation1D.js"></script>
 <script src="ChromaAnimation2D.js"></script>
-</head>
 <script>
 var chromaSDK = undefined;
 function onPageLoad() {
@@ -17,6 +16,7 @@ function onPageUnload() {
   }
 }
 </script>
+</head>
 
 <body onload="onPageLoad()" onunload="onPageUnload()">
 
@@ -24,7 +24,8 @@ function onPageUnload() {
 
 <button onclick="ChromaAnimation.playComposite('Random', false);">Play Composite</button>
 <button onclick="ChromaAnimation.playComposite('Random', true);">Loop</button>
-<button onclick="ChromaAnimation.stopComposite('Random');">Stop</button><br>
+<button onclick="ChromaAnimation.stopComposite('Random');">Stop</button>
+<button onclick="ChromaAnimation.playComposite('Blank', false);">Blank</button><br>
 
 <h1>Animations:</h1>
 
