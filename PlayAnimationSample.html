@@ -20,6 +20,11 @@ function onPageUnload() {
 
 <body onload="onPageLoad()" onunload="onPageUnload()">
 
+<h1>Control:</h1>
+
+<button onclick="if (chromaSDK != undefined) { chromaSDK.init(); }">Init</button>
+<button onclick="if (chromaSDK != undefined) { chromaSDK.uninit(); }">Uninit</button><br>
+
 <h1>Composites:</h1>
 
 <button onclick="ChromaAnimation.playComposite('Random', false);">Play Composite</button>
