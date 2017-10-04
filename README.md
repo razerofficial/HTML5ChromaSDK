@@ -96,9 +96,6 @@ Include the `JS` includes to get access to the `API`.
 <html>
 <head>
 <script src="ChromaSDKImpl.js"></script>
-<script src="ChromaAnimationTypes.js"></script>
-<script src="ChromaAnimation1D.js"></script>
-<script src="ChromaAnimation2D.js"></script>
 </head>
 </html>
 ```
