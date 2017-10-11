@@ -28,18 +28,21 @@ ChromaSDK.prototype = {
 			
         var request = new XMLHttpRequest();
 
-        request.open("POST", "https://chromasdk.io:54236/razer/chromasdk", true);
-		//request.open("POST", "http://chromasdk.io:54235/razer/chromasdk", true);
-		//request.open("POST", "http://localhost:54235/razer/chromasdk", true);
+		if (document.location.href.startsWith('http://localhost')) {
+          request.open("POST", "http://localhost:54235/razer/chromasdk", true);
+		} else {
+          request.open("POST", "https://chromasdk.io:54236/razer/chromasdk", true);
+          //request.open("POST", "http://chromasdk.io:54235/razer/chromasdk", true);
+		}
 
         request.setRequestHeader("content-type", "application/json");
 
         var data = JSON.stringify({
-            "title": "Razer Chroma SDK Sample Application",
-            "description": "Razer Chroma SDK Sample Application",
+            "title": "HTML5ChromaSDK",
+            "description": "JS Library for playing Chroma animations",
             "author": {
-                "name": "Chroma Developer",
-                "contact": "www.razerzone.com"
+                "name": "Razer, Inc.",
+                "contact": "https://github.com/RazerOfficial/HTML5ChromaSDK"
             },
             "device_supported": [
                 "keyboard",
@@ -626,6 +629,10 @@ var ChromaAnimation = {
     xhr.send('');
   },
   stopByAnimationType: function(animation) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.stopByAnimationType(animation); }, 100);
+      return;
+    }
     //1D
     if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
       if (this.LoadedAnimations1D[animation.Device] != undefined) {
@@ -641,6 +648,10 @@ var ChromaAnimation = {
     }
   },
   playAnimation: function(animationName, loop) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.playAnimation(animationName, loop); }, 100);
+      return;
+    }
     if (this.LoadedAnimations[animationName] == undefined) {
       var refThis = this;
       ChromaAnimation.openAnimation(animationName,
@@ -664,6 +675,10 @@ var ChromaAnimation = {
     }
   },
   playComposite: function(animationName, loop) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.playComposite(animationName, loop); }, 100);
+      return;
+    }
     this.playAnimation(animationName + "_ChromaLink.chroma", loop);
     this.playAnimation(animationName + "_Headset.chroma", loop);
     this.playAnimation(animationName + "_Keyboard.chroma", loop);
@@ -672,6 +687,10 @@ var ChromaAnimation = {
     this.playAnimation(animationName + "_Mousepad.chroma", loop);
   },
   stopComposite: function(animationName) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.stopComposite(animationName, loop); }, 100);
+      return;
+    }
     this.stopAnimation(animationName + "_ChromaLink.chroma");
     this.stopAnimation(animationName + "_Headset.chroma");
     this.stopAnimation(animationName + "_Keyboard.chroma");
@@ -680,6 +699,10 @@ var ChromaAnimation = {
     this.stopAnimation(animationName + "_Mousepad.chroma");
   },
   staticColor: function (device, color) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.staticColor(device, color); }, 100);
+      return;
+    }
     if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
       chromaSDK.createChromaLinkEffect("CHROMA_STATIC", color);
     } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
@@ -695,6 +718,10 @@ var ChromaAnimation = {
     }
   },
   clear: function (device) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.clear(device); }, 100);
+      return;
+    }
     if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
       chromaSDK.createChromaLinkEffect("CHROMA_NONE");
     } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
