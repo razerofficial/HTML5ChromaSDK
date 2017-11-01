@@ -44,6 +44,17 @@
 <a name="getting-started"></a>
 ## Getting Started
 
+**Browser Security**
+
+In order to allow an HTML5 page to talk with the Chroma REST API (cross-site scripting), add the response header for `Access-Control-Allow-Origin`. 
+
+<pre>
+Access-Control-Allow-Origin: https://chromasdk.io:54236/*
+</pre>
+
+![image_3](images/image_3.png)
+
+
 **Node.JS** (Optional) The sample project can be hosted in `Node.js`
 
 1 Install `Node.js`
