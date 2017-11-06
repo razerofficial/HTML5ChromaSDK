@@ -1,0 +1,98 @@
+<html>
+<head>
+<script src="ChromaSDKImpl.js"></script>
+<script>
+//function ChromaSDK(){}function onTimer(){var e=new XMLHttpRequest;e.open("PUT",uri+"/heartbeat",!0),e.setRequestHeader("content-type","application/json"),e.send(null),e.onreadystatechange=function(){4==e.readyState&&e.status}}function ChromaAnimationFrame1D(){}function ChromaAnimationFrame2D(){}function ChromaAnimation1D(){}function ChromaAnimation2D(){}ChromaSDK.prototype={uri:void 0,init:function(){setTimeout(function(){var e=new XMLHttpRequest;document.location.href.startsWith("http://localhost")?e.open("POST","http://localhost:54235/razer/chromasdk",!0):e.open("POST","https://chromasdk.io:54236/razer/chromasdk",!0),e.setRequestHeader("content-type","application/json");var t=JSON.stringify({title:"HTML5ChromaSDK",description:"JS Library for playing Chroma animations",author:{name:"Razer, Inc.",contact:"https://github.com/RazerOfficial/HTML5ChromaSDK"},device_supported:["keyboard","mouse","headset","mousepad","keypad","chromalink"],category:"application"});e.send(t),e.onreadystatechange=function(){4==e.readyState&&void 0!=e.responseText&&""!=e.responseText&&(uri=JSON.parse(e.responseText).uri,timerId=setInterval(onTimer,1e3))}},0)},uninit:function(){setTimeout(function(){if(void 0!=this.uri){var e=new XMLHttpRequest;e.open("DELETE",uri,!0),e.setRequestHeader("content-type","application/json"),e.send(null),e.onreadystatechange=function(){e.readyState},clearInterval(timerId)}},0)},createKeyboardEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}else"CHROMA_CUSTOM_KEY"==e&&(i=JSON.stringify({effect:e,param:t}));var o=new XMLHttpRequest;o.open("PUT",uri+"/keyboard",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateKeyboardEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}else"CHROMA_CUSTOM_KEY"==e&&(i=JSON.stringify({effect:e,param:t}));var o=new XMLHttpRequest;return o.open("POST",uri+"/keyboard",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},createMousematEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;o.open("PUT",uri+"/mousepad",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateMousematEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;return o.open("POST",uri+"/mousepad",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},createMouseEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM2"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;o.open("PUT",uri+"/mouse",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateMouseEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM2"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;return o.open("POST",uri+"/mouse",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},createHeadsetEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;o.open("PUT",uri+"/headset",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateHeadsetEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;return o.open("POST",uri+"/headset",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},createKeypadEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;o.open("PUT",uri+"/keypad",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateKeypadEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;return o.open("POST",uri+"/keypad",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},createChromaLinkEffect:function(e,t){setTimeout(function(){if(void 0!=this.uri){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;o.open("PUT",uri+"/chromalink",!0),o.setRequestHeader("content-type","application/json"),o.send(i)}},0)},preCreateChromaLinkEffect:function(e,t){var i;if("CHROMA_NONE"==e)i=JSON.stringify({effect:e});else if("CHROMA_CUSTOM"==e)i=JSON.stringify({effect:e,param:t});else if("CHROMA_STATIC"==e){var a={color:t};i=JSON.stringify({effect:e,param:a})}var o=new XMLHttpRequest;return o.open("POST",uri+"/chromalink",!1),o.setRequestHeader("content-type","application/json"),o.send(i),JSON.parse(o.responseText).id},setEffect:function(e){setTimeout(function(){if(void 0!=this.uri){var t=JSON.stringify({id:e}),i=new XMLHttpRequest;i.open("PUT",uri+"/effect",!0),i.setRequestHeader("content-type","application/json"),i.send(t)}},0)},deleteEffect:function(e){setTimeout(function(){if(void 0!=this.uri){var t=JSON.stringify({id:e}),i=new XMLHttpRequest;i.open("DELETE",uri+"/effect",!0),i.setRequestHeader("content-type","application/json"),i.send(t)}},0)},deleteEffectGroup:function(e){setTimeout(function(){if(void 0!=this.uri){var t=e,i=new XMLHttpRequest;i.open("DELETE",uri+"/effect",!0),i.setRequestHeader("content-type","application/json"),i.send(t)}},0)}};var EChromaSDKDeviceTypeEnum={DE_1D:0,DE_2D:1},EChromaSDKDevice1DEnum={DE_ChromaLink:0,DE_Headset:1,DE_Mousepad:2},EChromaSDKDevice2DEnum={DE_Keyboard:0,DE_Keypad:1,DE_Mouse:2},EChromaSDKDeviceEnum={DE_ChromaLink:0,DE_Headset:1,DE_Keyboard:2,DE_Keypad:3,DE_Mouse:4,DE_Mousepad:5},ChromaAnimation={LoadedAnimations:{},LoadedAnimations1D:{},LoadedAnimations2D:{},getMaxLeds:function(e){return e==EChromaSDKDevice1DEnum.DE_ChromaLink?5:e==EChromaSDKDevice1DEnum.DE_Headset?5:e==EChromaSDKDevice1DEnum.DE_Mousepad?15:void console.log("getMaxLeds: Invalid device!")},getMaxRow:function(e){return e==EChromaSDKDevice2DEnum.DE_Keyboard?6:e==EChromaSDKDevice2DEnum.DE_Keypad?4:e==EChromaSDKDevice2DEnum.DE_Mouse?9:void console.log("getMaxRow: Invalid device!")},getMaxColumn:function(e){return e==EChromaSDKDevice2DEnum.DE_Keyboard?22:e==EChromaSDKDevice2DEnum.DE_Keypad?5:e==EChromaSDKDevice2DEnum.DE_Mouse?7:void console.log("getMaxColumn: Invalid device!")},openAnimation:function(e,t){var i=new XMLHttpRequest;i.onreadystatechange=function(){if(4===i.readyState){var a=i.response,o=0,n=4,r=new Uint32Array(a.slice(o,o+n))[0];if(o+=n,1!=r)return void console.log("openAnimation: Unsupported version!");n=1;var s=new Uint8Array(a.slice(o,o+n))[0];if(o+=n,s==EChromaSDKDeviceTypeEnum.DE_1D)(c=new ChromaAnimation1D).openAnimation(a,o),c.Name=e,t(c);else if(s==EChromaSDKDeviceTypeEnum.DE_2D){var c=new ChromaAnimation2D;c.openAnimation(a,o),c.Name=e,t(c)}else t(void 0)}},i.open("GET",e,!0),i.responseType="arraybuffer",i.send("")},stopByAnimationType:function(e){void 0!=chromaSDK?e.DeviceType==EChromaSDKDeviceTypeEnum.DE_1D?(void 0!=this.LoadedAnimations1D[e.Device]&&this.LoadedAnimations1D[e.Device].stop(),this.LoadedAnimations1D[e.Device]=e):e.DeviceType==EChromaSDKDeviceTypeEnum.DE_2D&&(void 0!=this.LoadedAnimations2D[e.Device]&&this.LoadedAnimations2D[e.Device].stop(),this.LoadedAnimations2D[e.Device]=e):setTimeout(function(){ChromaAnimation.stopByAnimationType(e)},100)},playAnimation:function(e,t){if(void 0!=chromaSDK)if(void 0==this.LoadedAnimations[e]){var i=this;ChromaAnimation.openAnimation(e,function(a){i.LoadedAnimations[e]=a,i.stopByAnimationType(a,t),a.play(t)})}else{var a=this.LoadedAnimations[e];this.stopByAnimationType(a,t),a.play(t)}else setTimeout(function(){ChromaAnimation.playAnimation(e,t)},100)},stopAnimation:function(e){void 0!=this.LoadedAnimations[e]&&this.LoadedAnimations[e].stop()},playComposite:function(e,t){void 0!=chromaSDK?(this.playAnimation(e+"_ChromaLink.chroma",t),this.playAnimation(e+"_Headset.chroma",t),this.playAnimation(e+"_Keyboard.chroma",t),this.playAnimation(e+"_Keypad.chroma",t),this.playAnimation(e+"_Mouse.chroma",t),this.playAnimation(e+"_Mousepad.chroma",t)):setTimeout(function(){ChromaAnimation.playComposite(e,t)},100)},stopComposite:function(e){void 0!=chromaSDK?(this.stopAnimation(e+"_ChromaLink.chroma"),this.stopAnimation(e+"_Headset.chroma"),this.stopAnimation(e+"_Keyboard.chroma"),this.stopAnimation(e+"_Keypad.chroma"),this.stopAnimation(e+"_Mouse.chroma"),this.stopAnimation(e+"_Mousepad.chroma")):setTimeout(function(){ChromaAnimation.stopComposite(e,loop)},100)},staticColor:function(e,t){void 0!=chromaSDK?e==EChromaSDKDeviceEnum.DE_ChromaLink?chromaSDK.createChromaLinkEffect("CHROMA_STATIC",t):e==EChromaSDKDeviceEnum.DE_Headset?chromaSDK.createHeadsetEffect("CHROMA_STATIC",t):e==EChromaSDKDeviceEnum.DE_Keyboard?chromaSDK.createKeyboardEffect("CHROMA_STATIC",t):e==EChromaSDKDeviceEnum.DE_Keypad?chromaSDK.createKeypadEffect("CHROMA_STATIC",t):e==EChromaSDKDeviceEnum.DE_Mouse?chromaSDK.createMouseEffect("CHROMA_STATIC",t):e==EChromaSDKDeviceEnum.DE_Mousepad&&chromaSDK.createMousematEffect("CHROMA_STATIC",t):setTimeout(function(){ChromaAnimation.staticColor(e,t)},100)},custom:function(e,t){void 0!=chromaSDK?e==EChromaSDKDeviceEnum.DE_ChromaLink?chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM",t):e==EChromaSDKDeviceEnum.DE_Headset?chromaSDK.createHeadsetEffect("CHROMA_CUSTOM",t):e==EChromaSDKDeviceEnum.DE_Keyboard?chromaSDK.createKeyboardEffect("CHROMA_CUSTOM",t):e==EChromaSDKDeviceEnum.DE_Keypad?chromaSDK.createKeypadEffect("CHROMA_CUSTOM",t):e==EChromaSDKDeviceEnum.DE_Mouse?chromaSDK.createMouseEffect("CHROMA_CUSTOM2",t):e==EChromaSDKDeviceEnum.DE_Mousepad&&chromaSDK.createMousematEffect("CHROMA_CUSTOM",t):setTimeout(function(){ChromaAnimation.custom(e,t)},100)},clear:function(e){void 0!=chromaSDK?e==EChromaSDKDeviceEnum.DE_ChromaLink?chromaSDK.createChromaLinkEffect("CHROMA_NONE"):e==EChromaSDKDeviceEnum.DE_Headset?chromaSDK.createHeadsetEffect("CHROMA_NONE"):e==EChromaSDKDeviceEnum.DE_Keyboard?chromaSDK.createKeyboardEffect("CHROMA_NONE"):e==EChromaSDKDeviceEnum.DE_Keypad?chromaSDK.createKeypadEffect("CHROMA_NONE"):e==EChromaSDKDeviceEnum.DE_Mouse?chromaSDK.createMouseEffect("CHROMA_NONE"):e==EChromaSDKDeviceEnum.DE_Mousepad&&chromaSDK.createMousematEffect("CHROMA_NONE"):setTimeout(function(){ChromaAnimation.clear(e)},100)}};ChromaAnimation1D.prototype={DeviceType:EChromaSDKDeviceTypeEnum.DE_1D,openAnimation:function(e,t){readSize=1;var i=new Uint8Array(e.slice(t,t+readSize))[0];t+=readSize,this.Device=i,readSize=4;var a=new Uint32Array(e.slice(t,t+readSize))[0];t+=readSize;for(var o=ChromaAnimation.getMaxLeds(i),n=[],r=0;r<a;++r){var s=new ChromaAnimationFrame1D;readSize=Float32Array.BYTES_PER_ELEMENT;var c=new Float32Array(e.slice(t,t+readSize))[0];t+=readSize,c<.1&&(c=.1),s.Duration=c,readSize=4*o;var m=new Uint32Array(e.slice(t,t+readSize));t+=readSize,s.Colors=new Array(o);for(var f=0;f<o;++f){var u=m[f];s.Colors[f]=u}n.push(s)}this.Frames=n},getFrame:function(){return this.CurrentIndex<this.Frames.length?this.Frames[this.CurrentIndex]:void 0},getDuration:function(){var e=this.getFrame();return void 0!=e?e.Duration:0},playFrame:function(){if(this.CurrentIndex<this.Frames.length){var e=this.getDuration();this.Device==EChromaSDKDevice1DEnum.DE_ChromaLink?chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM",this.getFrame().Colors):this.Device==EChromaSDKDevice1DEnum.DE_Headset?chromaSDK.createHeadsetEffect("CHROMA_CUSTOM",this.getFrame().Colors):this.Device==EChromaSDKDevice1DEnum.DE_Mousepad&&chromaSDK.createMousematEffect("CHROMA_CUSTOM",this.getFrame().Colors);var t=this;this.PlayTimeout=setTimeout(function(){t.playFrame()},1e3*e),++this.CurrentIndex}else this.Loop?this.play(this.Loop):this.stop()},stop:function(){void 0!=this.PlayTimeout&&(clearTimeout(this.PlayTimeout),this.PlayTimeout=void 0),this.CurrentIndex=0,this.Loop=!1},play:function(e){this.stop(),this.CurrentIndex=0,this.Loop=e,this.playFrame()}},ChromaAnimation2D.prototype={DeviceType:EChromaSDKDeviceTypeEnum.DE_2D,openAnimation:function(e,t){readSize=1;var i=new Uint8Array(e.slice(t,t+readSize))[0];t+=readSize,this.Device=i,readSize=4;var a=new Uint32Array(e.slice(t,t+readSize))[0];t+=readSize;for(var o=ChromaAnimation.getMaxRow(i),n=ChromaAnimation.getMaxColumn(i),r=[],s=0;s<a;++s){var c=new ChromaAnimationFrame2D;readSize=Float32Array.BYTES_PER_ELEMENT;var m=new Float32Array(e.slice(t,t+readSize))[0];t+=readSize,m<.1&&(m=.1),c.Duration=m,readSize=4*o*n;var f=new Uint32Array(e.slice(t,t+readSize));t+=readSize,c.Colors=new Array(o);for(var u=0;u<o;++u){c.Colors[u]=new Array(n);for(var p=0;p<n;++p){var h=f[u*n+p];c.Colors[u][p]=h}}r.push(c)}this.Frames=r},getFrame:function(){return this.CurrentIndex<this.Frames.length?this.Frames[this.CurrentIndex]:void 0},getDuration:function(){var e=this.getFrame();return void 0!=e?e.Duration:0},playFrame:function(){if(this.CurrentIndex<this.Frames.length){var e=this.getDuration();this.Device==EChromaSDKDevice2DEnum.DE_Keyboard?chromaSDK.createKeyboardEffect("CHROMA_CUSTOM",this.getFrame().Colors):this.Device==EChromaSDKDevice2DEnum.DE_Keypad?chromaSDK.createKeypadEffect("CHROMA_CUSTOM",this.getFrame().Colors):this.Device==EChromaSDKDevice2DEnum.DE_Mouse&&chromaSDK.createMouseEffect("CHROMA_CUSTOM2",this.getFrame().Colors);var t=this;this.PlayTimeout=setTimeout(function(){t.playFrame()},1e3*e),++this.CurrentIndex}else this.Loop?this.play(this.Loop):this.stop()},stop:function(){void 0!=this.PlayTimeout&&(clearTimeout(this.PlayTimeout),this.PlayTimeout=void 0),this.CurrentIndex=0,this.Loop=!1},play:function(e){this.stop(),this.CurrentIndex=0,this.Loop=e,this.playFrame()}};
+
+var chromaSDK = new ChromaSDK();
+chromaSDK.init();
+function onPageUnload() {
+  if (chromaSDK != undefined) {
+    chromaSDK.uninit()
+  }
+}
+function showStaticColor() {
+  var razerGreen = 0x00802C;
+  var color = razerGreen;
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, color);
+}
+function showCustom() {
+  var razerGreen = 0x00802C;
+  var color = razerGreen;
+  var colors;
+  var maxLeds;
+  var maxRow;
+  var maxColumn;
+  
+  maxLeds = ChromaAnimation.getMaxLeds(EChromaSDKDevice1DEnum.DE_ChromaLink);
+  colors = new Array(maxLeds);
+  for (var i = 0; i < maxLeds; ++i) {
+    colors[i] = color;
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_ChromaLink, colors);
+  
+  maxLeds = ChromaAnimation.getMaxLeds(EChromaSDKDevice1DEnum.DE_Headset);
+  colors = new Array(maxLeds);
+  for (var i = 0; i < maxLeds; ++i) {
+    colors[i] = color;
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_Headset, colors);
+
+  maxRow = ChromaAnimation.getMaxRow(EChromaSDKDevice2DEnum.DE_Keyboard);
+  maxColumn = ChromaAnimation.getMaxColumn(EChromaSDKDevice2DEnum.DE_Keyboard);
+  colors = new Array(maxRow);
+  for (var i = 0; i < maxRow; ++i) {
+    colors[i] = new Array(maxColumn);
+    for (var j = 0; j < maxColumn; ++j) {
+      colors[i][j] = color;
+	}
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_Keyboard, colors);
+  
+  maxRow = ChromaAnimation.getMaxRow(EChromaSDKDevice2DEnum.DE_Keypad);
+  maxColumn = ChromaAnimation.getMaxColumn(EChromaSDKDevice2DEnum.DE_Keypad);
+  colors = new Array(maxRow);
+  for (var i = 0; i < maxRow; ++i) {
+    colors[i] = new Array(maxColumn);
+    for (var j = 0; j < maxColumn; ++j) {
+      colors[i][j] = color;
+	}
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_Keypad, colors);
+  
+  maxRow = ChromaAnimation.getMaxRow(EChromaSDKDevice2DEnum.DE_Mouse);
+  maxColumn = ChromaAnimation.getMaxColumn(EChromaSDKDevice2DEnum.DE_Mouse);
+  colors = new Array(maxRow);
+  for (var i = 0; i < maxRow; ++i) {
+    colors[i] = new Array(maxColumn);
+    for (var j = 0; j < maxColumn; ++j) {
+      colors[i][j] = color;
+	}
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_Mouse, colors);
+  
+  maxLeds = ChromaAnimation.getMaxLeds(EChromaSDKDevice1DEnum.DE_Mousepad);
+  colors = new Array(maxLeds);
+  for (var i = 0; i < maxLeds; ++i) {
+    colors[i] = color;
+  }
+  ChromaAnimation.custom(EChromaSDKDeviceEnum.DE_Mousepad, colors);
+}
+function showAnimation() {
+  ChromaAnimation.playComposite("RazerGreen");
+}
+setTimeout(function() { showStaticColor(); }, 1000);
+</script>
+</head>
+
+<body onunload="onPageUnload()">
+<button onclick="showStaticColor()">Static Color</button></br>
+<button onclick="showCustom()">Custom</button></br>
+<button onclick="showAnimation()">Animation</button></br>
+</body>
+</html>

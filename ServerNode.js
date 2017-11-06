@@ -9,6 +9,7 @@ app.get('/', function (req, res) {
   var response = "";
   response += '<a href="PlayAnimationSample.html">PlayAnimationSample.html</a><br/>';
   response += '<a href="RazerChromaSDKSampleApplication.html">RazerChromaSDKSampleApplication.html</a><br/>';
+  response += '<a href="Colors.html">Colors.html</a><br/>';
   res.send(response);
 })
 

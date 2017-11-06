@@ -717,6 +717,25 @@ var ChromaAnimation = {
       chromaSDK.createMousematEffect("CHROMA_STATIC", color);
     }
   },
+  custom: function (device, colors) {
+    if (chromaSDK == undefined) {
+      setTimeout(function() { ChromaAnimation.custom(device, colors); }, 100);
+      return;
+    }
+    if (device == EChromaSDKDeviceEnum.DE_ChromaLink) {
+      chromaSDK.createChromaLinkEffect("CHROMA_CUSTOM", colors);
+    } else if (device == EChromaSDKDeviceEnum.DE_Headset) {
+      chromaSDK.createHeadsetEffect("CHROMA_CUSTOM", colors);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keyboard) {
+      chromaSDK.createKeyboardEffect("CHROMA_CUSTOM", colors);
+    } else if (device == EChromaSDKDeviceEnum.DE_Keypad) {
+      chromaSDK.createKeypadEffect("CHROMA_CUSTOM", colors);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mouse) {
+      chromaSDK.createMouseEffect("CHROMA_CUSTOM2", colors);
+    } else if (device == EChromaSDKDeviceEnum.DE_Mousepad) {
+      chromaSDK.createMousematEffect("CHROMA_CUSTOM", colors);
+    }
+  },
   clear: function (device) {
     if (chromaSDK == undefined) {
       setTimeout(function() { ChromaAnimation.clear(device); }, 100);
