@@ -1028,7 +1028,7 @@ ChromaAnimation2D.prototype = {
     } else {
       //console.log('Animation complete.');
       if (this.Loop) {
-        this.play(this.Loop);
+        this.play(this.Loop, this.UseCustomKey);
       } else {
         this.stop();
       }
