@@ -24,36 +24,42 @@ function onPageUnload() {
 
 <h1>Composites:</h1>
 
-<button onclick="ChromaAnimation.playComposite('Random', false);">Play Composite</button>
-<button onclick="ChromaAnimation.playComposite('Random', true);">Loop</button>
-<button onclick="ChromaAnimation.stopComposite('Random');">Stop</button>
+<select id="SelAnimation">
+  <option value="Random" selected>Random</option>
+  <option value="RazerGreen">RazerGreen</option>
+  <option value="Wave">Wave</option>
+</select><br/>
+
+<button onclick="ChromaAnimation.playComposite(document.getElementById('SelAnimation').value, false);">Play Composite</button>
+<button onclick="ChromaAnimation.playComposite(document.getElementById('SelAnimation').value, true);">Loop</button>
+<button onclick="ChromaAnimation.stopComposite(document.getElementById('SelAnimation').value);">Stop</button>
 <button onclick="ChromaAnimation.playComposite('Blank', false);">Blank</button><br>
 
 <h1>Animations:</h1>
 
-<button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma', false);">Play ChromaLink Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_ChromaLink.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma', false);">Play ChromaLink Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation('Random_Headset.chroma', false);">Play Headset Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_Headset.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Headset.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma', false);">Play Headset Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation('Random_Keyboard.chroma', false);">Play Keyboard Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_Keyboard.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Keyboard.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', false);">Play Keyboard Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation('Random_Keypad.chroma', false);">Play Keypad Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_Keypad.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Keypad.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma', false);">Play Keypad Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation('Random_Mouse.chroma', false);">Play Mouse Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_Mouse.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Mouse.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma', false);">Play Mouse Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation('Random_Mousepad.chroma', false);">Play Mousepad Animation</button>
-<button onclick="ChromaAnimation.playAnimation('Random_Mousepad.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation('Random_Mousepad.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma', false);">Play Mousepad Animation</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma');">Stop</button><br>
 
 <h1>Static Color:</h1>
 
