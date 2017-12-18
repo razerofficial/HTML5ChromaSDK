@@ -108,7 +108,8 @@ ChromaSDK.prototype = {
         var color = { color: data };
         jsonObj = JSON.stringify({ effect: effect, param: color });
       } else if (effect == "CHROMA_CUSTOM_KEY") {
-        jsonObj = JSON.stringify({ effect: effect, param: data });
+        var color = { "color": data, "key": data };
+        jsonObj = JSON.stringify({ effect: effect, param: color });
       }
 
       //console.log(jsonObj);
@@ -135,7 +136,8 @@ ChromaSDK.prototype = {
       var color = { color: data };
       jsonObj = JSON.stringify({ effect: effect, param: color });
     } else if (effect == "CHROMA_CUSTOM_KEY") {
-      jsonObj = JSON.stringify({ effect: effect, param: data });
+      var color = { "color": data, "key": data };
+      jsonObj = JSON.stringify({ effect: effect, param: color });
     }
 
     //console.log(jsonObj);
