@@ -57,12 +57,34 @@ function onPageUnload() {
 
 <h1>Static Color:</h1>
 
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, 0xFF);">ChromaLink Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, 0xFF00);">Headset Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, 0xFF0000);">Keyboard Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, 0xFF00FF);">Keypad Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, 0xFFFF00);">Mouse Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, 0x00FFFF);">Mousepad Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, 0xFF);">ChromaLink</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, 0xFF00);">Headset</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, 0xFF0000);">Keyboard</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, 0xFF00FF);">Keypad</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, 0xFFFF00);">Mouse</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, 0x00FFFF);">Mousepad</button>
+<br/>
+ALL:
+<button onclick="ChromaAnimation.staticColorAll(0xFF);">Red</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFFFF);">Yellow</button>
+<button onclick="ChromaAnimation.staticColorAll(0x88FF);">Orange</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF00);">Green</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF0000);">Blue</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF00FF);">Magenta</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFFFF00);">Cyan</button>
+<br>
+
+<h1>Stop:</h1>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_ChromaLink);">ChromaLink</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Headset);">Headset</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Keyboard);">Keyboard</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Keypad);">Keypad</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mouse);">Mouse</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mousepad);">Mousepad</button>
+<br/>
+ALL:
+<button onclick="ChromaAnimation.stopAll();">Stop</button>
+<br>
 
 <h1>Clear:</h1>
 
@@ -72,6 +94,9 @@ function onPageUnload() {
 <button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keypad);">Keypad Clear</button><br>
 <button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mouse);">Mouse Clear</button><br>
 <button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);">Mousepad Clear</button><br>
+<br/>
+ALL:<br/>
+<button onclick="ChromaAnimation.clearAll();">Clear</button><br>
 
 </body>
 </html>
