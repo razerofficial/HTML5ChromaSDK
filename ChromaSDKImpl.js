@@ -861,9 +861,9 @@ var ChromaAnimation = {
 	this.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mouse);
 	this.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mousepad);
   },
-  playAnimation: function(animationName, loop) {
+  playAnimation: function(animationName, loop, frameCallback) {
     if (chromaSDK == undefined) {
-      setTimeout(function() { ChromaAnimation.playAnimation(animationName, loop); }, 100);
+      setTimeout(function() { ChromaAnimation.playAnimation(animationName, loop, frameCallback); }, 100);
       return;
     }
     if (this.LoadedAnimations[animationName] == undefined) {
@@ -873,11 +873,13 @@ var ChromaAnimation = {
 		  //console.log(animation);
           refThis.LoadedAnimations[animationName] = animation;
 		  //console.log('playAnimation:', animationName);
+		  animation.FrameCallback = frameCallback;
 		  animation.play(loop);
         });
     } else {
       var animation = this.LoadedAnimations[animationName];
 	  //console.log('playAnimation:', animationName);
+	  animation.FrameCallback = frameCallback;
       animation.play(loop);
     }
   },
@@ -1006,6 +1008,7 @@ function ChromaAnimation1D() {
   var CurrentIndex = 0;
   var Loop = true;
   var PlayTimeout = undefined;
+  var FrameCallback = undefined;
 }
 
 ChromaAnimation1D.prototype = {
@@ -1089,6 +1092,10 @@ ChromaAnimation1D.prototype = {
       } else if (this.Device == EChromaSDKDevice1DEnum.DE_Mousepad) {
         chromaSDK.createMousematEffect("CHROMA_CUSTOM", this.getFrame().Colors);
       }
+	  
+	  if (this.FrameCallback != undefined) {
+        this.FrameCallback(this, this.getFrame().Colors);
+      }
 		  
       // schedule next frame
       var refThis = this;
@@ -1132,6 +1139,7 @@ function ChromaAnimation2D() {
   var CurrentIndex = 0;
   var Loop = false;
   var PlayTimeout = undefined;
+  var FrameCallback = undefined;
 }
 
 ChromaAnimation2D.prototype = {
@@ -1220,6 +1228,10 @@ ChromaAnimation2D.prototype = {
         chromaSDK.createKeypadEffect("CHROMA_CUSTOM", this.getFrame().Colors);
       } else if (this.Device == EChromaSDKDevice2DEnum.DE_Mouse) {
         chromaSDK.createMouseEffect("CHROMA_CUSTOM2", this.getFrame().Colors);
+      }
+	  
+	  if (this.FrameCallback != undefined) {
+        this.FrameCallback(this, this.getFrame().Colors);
       }
 	  
       // schedule next frame
