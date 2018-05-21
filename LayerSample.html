@@ -1,0 +1,350 @@
+<html>
+
+<head>
+<style>
+.divBox {
+  display: inline-table;
+  border:1px solid #000;
+  margin: 0.25em;
+  padding: 0.75em;
+  vertical-align: top;
+}
+.divColor {
+  display: inline-table;
+  border:1px solid #000;
+  background-color: #DDD;
+  margin: 0.1em;
+  padding: 0.25em;
+  vertical-align: center;
+}
+.divText {
+  display: inline-table;
+  padding-top: 0.5em;
+  vertical-align: top;
+}
+</style>
+<script src="ChromaSDKImpl.js"></script>
+<script>
+var chromaSDK = undefined;
+var initialized = false;
+var buttonHeal = undefined;
+var buttonDamage = undefined;
+var buttonItemPickup = undefined;
+var baseIntensity = undefined;
+var effectIntensity = undefined;
+var hotkeyIntensity = undefined;
+var selectedAnimation = 0;
+
+function chromaSetStaticColor(color) {
+  if (!initialized) {
+    console.log('chromaSetStaticColor', 'not initialized!');
+    return;
+  }
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, color);
+  ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, color);
+}
+function onPageLoad() {
+  chromaSDK = new ChromaSDK();
+  chromaSDK.init();
+  setTimeout(function() {
+    initialized = true;
+    var white = 0xFFFFFF;
+    chromaSetStaticColor(white);
+  }, 150);
+}
+
+function validateControls() {
+  buttonHeal = document.getElementById('buttonHeal');
+  if (buttonHeal == undefined) {
+    return false;
+  }
+
+  buttonDamage = document.getElementById('buttonDamage');
+  if (buttonDamage == undefined) {
+    return false;
+  }
+
+  buttonItemPickup = document.getElementById('buttonItemPickup');
+  if (buttonItemPickup == undefined) {
+    return false;
+  }
+
+  baseIntensity = document.getElementById('baseIntensity');
+  if (baseIntensity == undefined) {
+    return false;
+  }
+
+  effectIntensity = document.getElementById('effectIntensity');
+  if (effectIntensity == undefined) {
+    return false;
+  }
+
+  hotkeyIntensity = document.getElementById('hotkeyIntensity');
+  if (hotkeyIntensity == undefined) {
+    return false;
+  }
+
+  return true;
+}
+
+function addControlEvents() {
+  if (validateControls() == false) {
+    return;
+  }
+  buttonHeal.onclick = function() {
+    selectedAnimation = 0;
+    heal();
+  }
+  buttonDamage.onclick = function() {
+    selectedAnimation = 1;
+    damage();
+  }
+  buttonItemPickup.onclick = function() {
+    selectedAnimation = 2;
+    itemPickup();
+  }
+  baseIntensity.onchange = function() {
+    divBaseIntensity.innerText = baseIntensity.value + "%";
+    playSelectedAnimation();
+  }
+  effectIntensity.onchange = function() {
+    divEffectIntensity.innerText = effectIntensity.value + "%";
+    playSelectedAnimation();
+  }
+  hotkeyIntensity.onchange = function() {
+    divHotkeyIntensity.innerText = hotkeyIntensity.value + "%";
+    playSelectedAnimation();
+  }
+}
+
+function getHex(num) {
+  var result = num.toString(16);
+  if (result.length == 0) {
+    return "00";
+  } else if (result.length == 1) {
+    return "0" + result;
+  } else {
+    return result;
+  }
+}
+
+function heal() {
+  if (validateControls() == false) {
+    return;
+  }
+  var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(baseLayer);
+
+  var layer2 = "RingGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer2);
+
+  var layer3 = "FadeInOutGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer3);
+
+  var keys = [];
+  keys.push(RZLED.RZLED_LOGO);
+  keys.push(RZKEY.RZKEY_ESC);
+  keys.push(RZKEY.RZKEY_Q);
+  keys.push(RZKEY.RZKEY_E);
+
+  ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+    ChromaAnimation.openAnimation(layer2, function(layer2Animation) {
+      ChromaAnimation.openAnimation(layer3, function(layer3Animation) {
+        // now that all 3 animations have reloaded
+
+        // set base intensity
+        ChromaAnimation.multiplyIntensityAllFrames(baseLayer, 1.0 + 64.0 * (baseIntensity.value / 100.0));
+
+        // turn animation green
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer2, -127, 127, -127); //animation starts with 127,127,127 so adding -127,127,-127 results in 0,255,0 or green
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer2, (effectIntensity.value / 100.0));
+        ChromaAnimation.copyNonZeroAllKeysAllFrames(layer2, baseLayer);
+
+        // change color
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer3, 173 - 127, 255 - 127, 47 - 127);
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer3, (hotkeyIntensity.value / 100.0));
+        ChromaAnimation.copyKeysColorAllFrames(layer3, baseLayer, keys);
+
+        // set wasd keys
+        keys = [];
+        keys.push(RZKEY.RZKEY_W);
+        keys.push(RZKEY.RZKEY_A);
+        keys.push(RZKEY.RZKEY_S);
+        keys.push(RZKEY.RZKEY_D);
+
+        var red = Math.floor(255 * (hotkeyIntensity.value / 100.0));
+        var green = Math.floor(127 * (hotkeyIntensity.value / 100.0));
+        var blue = Math.floor(0 * (hotkeyIntensity.value / 100.0));
+        var color = red | (green << 8) | (blue << 16);
+        ChromaAnimation.setKeysColorAllFrames(baseLayer, keys, color);
+
+        ChromaAnimation.playAnimation(baseLayer, true);
+
+      });
+    });
+  });
+}
+
+function damage() {
+  if (validateControls() == false) {
+    return;
+  }
+  var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(baseLayer);
+
+  var layer2 = "RingGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer2);
+
+  var layer3 = "FadeInOutGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer3);
+
+  var keys = [];
+  keys.push(RZLED.RZLED_LOGO);
+  keys.push(RZKEY.RZKEY_ESC);
+  keys.push(RZKEY.RZKEY_Q);
+  keys.push(RZKEY.RZKEY_E);
+
+  ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+    ChromaAnimation.openAnimation(layer2, function(layer2Animation) {
+      ChromaAnimation.openAnimation(layer3, function(layer3Animation) {
+        // now that all 3 animations have reloaded
+
+        // set base intensity
+        ChromaAnimation.multiplyIntensityAllFrames(baseLayer, 1.0 + 64.0 * (baseIntensity.value / 100.0));
+
+        // turn animation red
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer2, 127, -127, -127); //animation starts with 127,127,127 so adding 127,-127,-127 results in 255,0,0 or red
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer2, (effectIntensity.value / 100.0));
+        ChromaAnimation.copyNonZeroAllKeysAllFrames(layer2, baseLayer);
+
+        // change color
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer3, 220 - 127, 20 - 127, 60 - 127);
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer3, (hotkeyIntensity.value / 100.0));
+        ChromaAnimation.copyKeysColorAllFrames(layer3, baseLayer, keys);
+
+        // set wasd keys
+        keys = [];
+        keys.push(RZKEY.RZKEY_W);
+        keys.push(RZKEY.RZKEY_A);
+        keys.push(RZKEY.RZKEY_S);
+        keys.push(RZKEY.RZKEY_D);
+
+        var red = Math.floor(255 * (hotkeyIntensity.value / 100.0));
+        var green = Math.floor(127 * (hotkeyIntensity.value / 100.0));
+        var blue = Math.floor(0 * (hotkeyIntensity.value / 100.0));
+        var color = red | (green << 8) | (blue << 16);
+        ChromaAnimation.setKeysColorAllFrames(baseLayer, keys, color);
+
+        ChromaAnimation.playAnimation(baseLayer, true);
+
+      });
+    });
+  });
+}
+
+function itemPickup() {
+  if (validateControls() == false) {
+    return;
+  }
+  var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(baseLayer);
+
+  var layer2 = "RingGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer2);
+
+  var layer3 = "FadeInOutGray_Keyboard.chroma";
+  ChromaAnimation.closeAnimation(layer3);
+
+  var keys = [];
+  keys.push(RZLED.RZLED_LOGO);
+  keys.push(RZKEY.RZKEY_ESC);
+  keys.push(RZKEY.RZKEY_Q);
+  keys.push(RZKEY.RZKEY_E);
+
+  ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+    ChromaAnimation.openAnimation(layer2, function(layer2Animation) {
+      ChromaAnimation.openAnimation(layer3, function(layer3Animation) {
+        // now that all 3 animations have reloaded
+
+        // set base intensity
+        ChromaAnimation.multiplyIntensityAllFrames(baseLayer, 1.0 + 64.0 * (baseIntensity.value / 100.0));
+
+        // turn animation blue
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer2, -127, -127, 127); //animation starts with 127,127,127 so adding -127,-127,127 results in 0,0,255 or blue
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer2, (effectIntensity.value / 100.0));
+        ChromaAnimation.copyNonZeroAllKeysAllFrames(layer2, baseLayer);
+
+        // change color
+        ChromaAnimation.offsetNonZeroColorsAllFrames(layer3, 64 - 127, 224 - 127, 208 - 127);
+        // set intensity
+        ChromaAnimation.multiplyIntensityAllFrames(layer3, (hotkeyIntensity.value / 100.0));
+        ChromaAnimation.copyKeysColorAllFrames(layer3, baseLayer, keys);
+
+        // set wasd keys
+        keys = [];
+        keys.push(RZKEY.RZKEY_W);
+        keys.push(RZKEY.RZKEY_A);
+        keys.push(RZKEY.RZKEY_S);
+        keys.push(RZKEY.RZKEY_D);
+
+        var red = Math.floor(255 * (hotkeyIntensity.value / 100.0));
+        var green = Math.floor(127 * (hotkeyIntensity.value / 100.0));
+        var blue = Math.floor(0 * (hotkeyIntensity.value / 100.0));
+        var color = red | (green << 8) | (blue << 16);
+        ChromaAnimation.setKeysColorAllFrames(baseLayer, keys, color);
+
+        ChromaAnimation.playAnimation(baseLayer, true);
+
+      });
+    });
+  });
+}
+
+function playSelectedAnimation() {
+  if (selectedAnimation == 0) {
+    heal();
+  } else if (selectedAnimation == 1) {
+    damage();
+  } else if (selectedAnimation == 2) {
+    itemPickup();
+  }
+}
+
+</script>
+</head>
+<body onload="onPageLoad()">
+<button id="buttonHeal">Heal</button>
+<button id="buttonDamage">Damage</button>
+<button id="buttonItemPickup">Item Pickup</button><br/>
+</br>
+
+Base Intensity:
+<input type="range" min="0" max="100" value="100" class="slider" id="baseIntensity"></input>
+<div id="divBaseIntensity" style="display: inline-table;">100%</div>
+<br/>
+
+Effect Intensity:
+<input type="range" min="0" max="100" value="100" class="slider" id="effectIntensity"></input>
+<div id="divEffectIntensity" style="display: inline-table;">100%</div>
+<br/>
+
+Hotkey Intensity:
+<input type="range" min="0" max="100" value="100" class="slider" id="hotkeyIntensity"></input>
+<div id="divHotkeyIntensity" style="display: inline-table;">100%</div>
+<br/>
+
+<script>
+addControlEvents();
+</script>
+
+</body>
+</html>
