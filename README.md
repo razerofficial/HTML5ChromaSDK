@@ -277,7 +277,7 @@ ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
 
 **Multiply Intensity All Frames**
 
-The `multiplyIntensityAllFrames` multiplies a color intensity for all frames of an animation. This is useful to control the intensity of a layer. `0.0` results in a completely black layer. `0.5` would half the color values for all frames.
+The `multiplyIntensityAllFrames` method multiplies a color intensity for all frames of an animation. This is useful to control the intensity of a layer. `0.0` results in a completely black layer. `0.5` would half the color values for all frames.
 
 ```js
 var baseLayer = "EnvironmentSnow_Keyboard.chroma";
