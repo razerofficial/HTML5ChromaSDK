@@ -46,7 +46,7 @@
 
 **Browser Security**
 
-In order to allow an HTML5 page to talk with the Chroma REST API (cross-site scripting), add the response header for `Access-Control-Allow-Origin`. 
+In order to allow an HTML5 page to talk with the Chroma REST API (cross-site scripting), add the response header for `Access-Control-Allow-Origin`.
 
 <pre>
 Access-Control-Allow-Origin: https://chromasdk.io:54236/*
@@ -87,6 +87,10 @@ node ServerNode.js
 
 ![image_1](images/image_1.png)
 
+4 Browse 'LayerSample.html'
+
+![image_4](images/image_4.png)
+
 <a name="assets"></a>
 ## Assets
 
@@ -100,6 +104,8 @@ This library supports the `Chroma` animation exports from [UE4](https://github.c
 
 <a name="api"></a>
 ## API
+
+---
 
 **Initialization**
 
@@ -131,6 +137,8 @@ function onPageUnload() {
 <body onload="onPageLoad()" onunload="onPageUnload()">
 ```
 
+---
+
 **Clear**
 
 The `clear` method will turn off the lighting effect for a device.
@@ -143,6 +151,18 @@ ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keypad);
 ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mouse);
 ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);
 ```
+
+---
+
+**Clear All**
+
+The `clearAll` method sets the clear state for all devices.
+
+```js
+ChromaAnimation.clearAll();
+```
+
+---
 
 **Static Color**
 
@@ -162,6 +182,8 @@ ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, color);
 ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, color);
 ```
 
+---
+
 **Play Animation**
 
 The `playAnimation` method will play a `Chroma` animation file. With `loop` set to `true`, the animation will repeat. With `loop` set to `false`, the animation will play once.
@@ -176,6 +198,8 @@ ChromaAnimation.playAnimation('Random_Mouse.chroma', loop);
 ChromaAnimation.playAnimation('Random_Mousepad.chroma', loop);
 ```
 
+---
+
 **Stop Animation**
 
 The `stopAnimation` method will stop playing a `Chroma` animation file.
@@ -188,6 +212,18 @@ ChromaAnimation.stopAnimation('Random_Keypad.chroma');
 ChromaAnimation.stopAnimation('Random_Mouse.chroma');
 ChromaAnimation.stopAnimation('Random_Mousepad.chroma');
 ```
+
+---
+
+**Stop All**
+
+The `stopAll` method stops all animations from playing for all devices.
+
+```js
+ChromaAnimation.stopAll();
+```
+
+---
 
 **Play Composite**
 
@@ -205,3 +241,109 @@ ChromaAnimation.playComposite('Random', loop);
 //ChromaAnimation.playAnimation('Random_Mouse.chroma', loop);
 //ChromaAnimation.playAnimation('Random_Mousepad.chroma', loop);
 ```
+
+---
+
+**Open Animation**
+
+The `openAnimation` method downloads a `Chroma` animation and invokes a callback after the animation has loaded.
+
+```js
+var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+
+// open animation
+ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+});
+```
+
+---
+
+**Close Animation**
+
+The `closeAnimation` method stops an animation if playing and then removes the animation so that it can be reloaded. This allows an animation to go back to the original state before any modifications had taken place.
+
+```js
+var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+
+//reset animation
+ChromaAnimation.closeAnimation(baseLayer);
+
+//open animation
+ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+  });
+```
+
+---
+
+**Multiply Intensity All Frames**
+
+The `multiplyIntensityAllFrames` multiplies a color intensity for all frames of an animation. This is useful to control the intensity of a layer. `0.0` results in a completely black layer. `0.5` would half the color values for all frames.
+
+```js
+var baseLayer = "EnvironmentSnow_Keyboard.chroma";
+
+// reset animation
+ChromaAnimation.closeAnimation(baseLayer);
+
+// open animation
+ChromaAnimation.openAnimation(baseLayer, function(baseAnimation) {
+
+  // set base intensity
+  ChromaAnimation.multiplyIntensityAllFrames(baseLayer, (baseIntensity.value / 100.0));
+
+});
+```
+
+---
+
+**Offset Nonzero Colors All Frames**
+
+The `offsetNonZeroColorsAllFrames` method offsets the RGB values for all frames in the animation that aren't black. This method allows a gray animation layer to be tinted to any color while keeping the black colors black. Red, green, blue use expected values `0` to `255`.
+
+```js
+var layer2 = "RingGray_Keyboard.chroma";
+
+// reset animation
+ChromaAnimation.closeAnimation(layer2);
+
+// open animation
+ChromaAnimation.openAnimation(layer2, function(layer2Animation) {
+
+  // set base intensity
+  ChromaAnimation.multiplyIntensityAllFrames(layer2,
+    (effectIntensity.value / 100.0));
+
+  //animation starts with 127,127,127 so adding 127,-127,-127 results in 255,0,0 or red
+  ChromaAnimation.offsetNonZeroColorsAllFrames(layer2, 127, -127, -127);
+
+});
+```
+
+---
+
+**Copy NonZero All Keys All Frames**
+
+The `copyNonZeroAllKeysAllFrames` method copies all non-black colors for all frames from a source animation to a target animation. This is useful for combining multiple layers into a base layer.
+
+```js
+ChromaAnimation.copyNonZeroAllKeysAllFrames(sourceAnimationName, targetAnimationName);
+```
+
+---
+
+**Copy Keys Colors All Frames**
+
+The `copyKeysColorAllFrames` method copies all specified keys from one source animation to a target animation.
+
+```js
+// set wasd keys
+var keys = [];
+keys.push(RZKEY.RZKEY_W);
+keys.push(RZKEY.RZKEY_A);
+keys.push(RZKEY.RZKEY_S);
+keys.push(RZKEY.RZKEY_D);
+
+ChromaAnimation.copyKeysColorAllFrames(sourceAnimationName, targetAnimationName, keys);
+```
+
+---
