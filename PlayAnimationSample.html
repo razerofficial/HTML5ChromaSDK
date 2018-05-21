@@ -33,7 +33,7 @@ function onPageLoad() {
   oReq.addEventListener(
     "readystatechange",
     function() {
-      console.log('readystatechange', this.status);
+      //console.log('readystatechange', this.status);
       if (this.readyState == 4) {
         if (this.status == 200) {
         }
@@ -66,7 +66,6 @@ function onPageUnload() {
 
 <select id="SelAnimation">
   <option value="Random" selected>Random</option>
-  <option value="RazerGreen">RazerGreen</option>
   <option value="Wave">Wave</option>
 </select><br/>
 
@@ -77,48 +76,73 @@ function onPageUnload() {
 
 <h1>Animations:</h1>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma', false);">Play ChromaLink Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_ChromaLink.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma', false);">Play ChromaLink Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_ChromaLink.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_ChromaLink.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma', false);">Play Headset Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Headset.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_Headset.chroma', false);">Play Headset Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_Headset.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_Headset.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', false);">Play Keyboard Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma');">Stop</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', true, true);">CustomKey</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_Keyboard.chroma', false);">Play Keyboard Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_Keyboard.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_Keyboard.chroma');">Stop</button>
+<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keyboard.chroma', true, undefined, true);">CustomKey</button><br>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma', false);">Play Keypad Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Keypad.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_Keypad.chroma', false);">Play Keypad Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_Keypad.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_Keypad.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma', false);">Play Mouse Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Mouse.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_Mouse.chroma', false);">Play Mouse Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_Mouse.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_Mouse.chroma');">Stop</button><br>
 
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma', false);">Play Mousepad Animation</button>
-<button onclick="ChromaAnimation.playAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma', true);">Loop</button>
-<button onclick="ChromaAnimation.stopAnimation(document.getElementById('SelAnimation').value + '_Mousepad.chroma');">Stop</button><br>
+<button onclick="ChromaAnimation.playAnimation('Random_Mousepad.chroma', false);">Play Mousepad Animation</button>
+<button onclick="ChromaAnimation.playAnimation('Random_Mousepad.chroma', true);">Loop</button>
+<button onclick="ChromaAnimation.stopAnimation('Random_Mousepad.chroma');">Stop</button><br>
 
 <h1>Static Color:</h1>
 
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, 0xFF);">ChromaLink Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, 0xFF00);">Headset Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, 0xFF0000);">Keyboard Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, 0xFF00FF);">Keypad Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, 0xFFFF00);">Mouse Static Color</button><br>
-<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, 0x00FFFF);">Mousepad Static Color</button><br>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_ChromaLink, 0xFF);">ChromaLink</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Headset, 0xFF00);">Headset</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keyboard, 0xFF0000);">Keyboard</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Keypad, 0xFF00FF);">Keypad</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mouse, 0xFFFF00);">Mouse</button>
+<button onclick="ChromaAnimation.staticColor(EChromaSDKDeviceEnum.DE_Mousepad, 0x00FFFF);">Mousepad</button>
+<br/>
+ALL:
+<button onclick="ChromaAnimation.staticColorAll(0xFF);">Red</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFFFF);">Yellow</button>
+<button onclick="ChromaAnimation.staticColorAll(0x88FF);">Orange</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF00);">Green</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF0000);">Blue</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFF00FF);">Magenta</button>
+<button onclick="ChromaAnimation.staticColorAll(0xFFFF00);">Cyan</button>
+<br>
+
+<h1>Stop:</h1>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_ChromaLink);">ChromaLink</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Headset);">Headset</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Keyboard);">Keyboard</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Keypad);">Keypad</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mouse);">Mouse</button>
+<button onclick="ChromaAnimation.stopByAnimationType(EChromaSDKDeviceEnum.DE_Mousepad);">Mousepad</button>
+<br/>
+ALL:
+<button onclick="ChromaAnimation.stopAll();">Stop</button>
+<br>
 
 <h1>Clear:</h1>
 
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_ChromaLink);">ChromaLink Clear</button><br>
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Headset);">Headset Clear</button><br>
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keyboard);">Keyboard Clear</button><br>
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keypad);">Keypad Clear</button><br>
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mouse);">Mouse Clear</button><br>
-<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);">Mousepad Clear</button><br>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_ChromaLink);">ChromaLink</button>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Headset);">Headset</button>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keyboard);">Keyboard</button>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Keypad);">Keypad</button>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mouse);">Mouse</button>
+<button onclick="ChromaAnimation.clear(EChromaSDKDeviceEnum.DE_Mousepad);">Mousepad</button><br>
+<br/>
+ALL:<br/>
+<button onclick="ChromaAnimation.clearAll();">Clear</button><br>
 
 </body>
 </html>
