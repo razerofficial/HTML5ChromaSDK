@@ -1,11 +1,49 @@
 <html>
 <head>
+<script src="jquery-3.3.1.min.js"></script>
 <script src="ChromaSDKImpl.js"></script>
 <script>
 var chromaSDK = undefined;
 function onPageLoad() {
   chromaSDK = new ChromaSDK();
-  chromaSDK.init();
+  var oReq = new XMLHttpRequest();
+  oReq.timeout = 2000; // time in milliseconds
+  oReq.addEventListener("load", function() {
+    console.log('ChromaSDK Version:', this.responseText);
+    var jsonVersion = JSON.parse(this.responseText);
+    if (jsonVersion != undefined &&
+      jsonVersion.version != undefined) {
+      var parts = jsonVersion.version.split(".");
+      if (parts.length >= 3 &&
+        ((parts[0] > 2) ||
+        (parts[0] == 2 && parts[1] > 14) ||
+        (parts[0] == 2 && parts[1] == 14 && parts[2] >= 0))) {
+          chromaSDK.init();
+        } else {
+          $("#divUpdateChromaSDK").show();
+        }
+    }
+  });
+  oReq.ontimeout = function() {
+    console.log('ontimeout');
+  };
+  oReq.onerror = function() {
+    console.log('onerror');
+  };
+  oReq.addEventListener(
+    "readystatechange",
+    function() {
+      console.log('readystatechange', this.status);
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+        }
+      }
+    }
+    ,
+    false
+  );
+  oReq.open("GET", "https://chromasdk.io:54236/razer/chromasdk");
+  oReq.send();
 }
 function onPageUnload() {
   if (chromaSDK != undefined) {
@@ -16,6 +54,8 @@ function onPageUnload() {
 </head>
 
 <body onload="onPageLoad()" onunload="onPageUnload()">
+
+<div id="divUpdateChromaSDK" style="display: none">Please update your ChromaSDK version (an old version was detected)!</div>
 
 <h1>Control:</h1>
 
