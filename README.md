@@ -39,9 +39,7 @@
 <a name="prerequisites"></a>
 ## Prerequisites
 
-- Install [Synapse](http://developer.razerzone.com/works-with-chroma/download/)
-
-- Install [Chroma SDK 2.5.3](http://developer.razerzone.com/works-with-chroma/download/)
+- Install [Synapse](https://www.razer.com/synapse-3) with the Chroma Connect Module and sign-in or use guest
 
 - (Optional) [Node.js](https://nodejs.org/en/) - Use to host the sample locally
 
