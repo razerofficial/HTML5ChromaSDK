@@ -4,14 +4,20 @@
 
 **Table of Contents**
 
-* [Related](#related)
+* [See also](#see-also)
 * [Frameworks supported](#frameworks-supported)
 * [Prerequisites](#prerequisites)
 * [Assets](#assets)
 * [API](#api)
 
 <a name="related"></a>
-## Related
+## See Also
+
+**Docs:**
+
+- [Chroma Animation Guide](http://chroma.razer.com/ChromaGuide/) - Visual examples of the Chroma Animation API methods
+
+**Plugins:**
 
 - [CChromaEditor](https://github.com/RazerOfficial/CChromaEditor) - C++ Native MFC Library for playing and editing Chroma animations
 
