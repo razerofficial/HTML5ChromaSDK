@@ -29,8 +29,6 @@
 
 - [UnityNativeChromaSDK](https://github.com/RazerOfficial/UnityNativeChromaSDK) - Unity native library for the ChromaSDK
 
-- [UnityChromaSDK](https://github.com/RazerOfficial/UnityChromaSDK) - Unity C# library for the Chroma Rest API
-
 <a name="frameworks-supported"></a>
 ## Frameworks supported
 
