@@ -39,7 +39,7 @@
 <a name="quick-start"></a>
 ## Quick Start
 
-* [Demo](https://htmlpreview.github.io/?https://github.com/razerofficial/HTML5ChromaSDK/blob/master/index.html)
+* [Template.html](Template.html) [Template.js](Template.js)
 
 
 <a name="getting-started"></a>
