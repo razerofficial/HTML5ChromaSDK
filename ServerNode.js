@@ -5,17 +5,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', function (req, res) {
-  var response = "";
-  response += '<a href="PlayAnimationSample.html">PlayAnimationSample.html</a><br/>';
-  response += '<a href="LayerSample.html">LayerSample.html</a><br/>';
-  response += '<a href="RazerChromaSDKSampleApplication.html">RazerChromaSDKSampleApplication.html</a><br/>';
-  response += '<a href="Colors.html">Colors.html</a><br/>';  
-  res.send(response);
-})
-
 app.use(express.static('.'));
 
-app.listen(1337, function () {
-  console.log('Example app listening on port 1337!');
+app.listen(5001, function () {
+  console.log('Example app listening on port 5001!');
 })

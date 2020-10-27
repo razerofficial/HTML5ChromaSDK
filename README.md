@@ -5,8 +5,8 @@
 **Table of Contents**
 
 * [See also](#see-also)
-* [Frameworks supported](#frameworks-supported)
 * [Prerequisites](#prerequisites)
+* [Quick Start](#quick-start)
 * [Assets](#assets)
 * [API](#api)
 
@@ -29,19 +29,18 @@
 
 - [UnityNativeChromaSDK](https://github.com/RazerOfficial/UnityNativeChromaSDK) - Unity native library for the ChromaSDK
 
-<a name="frameworks-supported"></a>
-## Frameworks supported
-
-- Windows ChromaSDK (32-bit)
-
-- Windows ChromaSDK (64-bit)
-
 <a name="prerequisites"></a>
 ## Prerequisites
 
 - Install [Synapse](https://www.razer.com/synapse-3) with the Chroma Connect Module and sign-in or use guest
 
 - (Optional) [Node.js](https://nodejs.org/en/) - Use to host the sample locally
+
+<a name="quick-start"></a>
+## Quick Start
+
+* [Demo](https://htmlpreview.github.io/?https://github.com/razerofficial/HTML5ChromaSDK/blob/master/index.html)
+
 
 <a name="getting-started"></a>
 ## Getting Started

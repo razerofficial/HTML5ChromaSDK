@@ -6,99 +6,102 @@ function ChromaSDK() {
     var initialized = false;
 }
 
-function onTimer() {
-    if (this.uri == undefined) {
-      return;
-    }
-
-    if (!initialized) {
-      return;
-    }
-
-    var request = new XMLHttpRequest();
-
-    request.open("PUT", uri + "/heartbeat", true);
-
-    request.setRequestHeader("content-type", "application/json");
-
-    request.onerror = function () {
-      console.log('request onerror', request.status);
-    };
-
-    request.onreadystatechange = function () {
-        if (request.readyState == 4 && request.status != 200){
-            console.log('request onreadystatechange', request.status);
-            /*
-            setTimeout(function() {
-              chromaSDK.uninit();
-            }, 0);
-            setTimeout(function() {
-              chromaSDK.init();
-            }, 100);
-            */
-        }
-    }
-
-    request.send(null);
-}
-
 ChromaSDK.prototype = {
 	uri: undefined,
-    init: function () {
-		setTimeout(function() {
+    onTimer: function () {
+      var refThis = chromaSDK; // used on interval so this is out of scope
+      if (refThis.uri == undefined) {
+        return;
+      }
 
-      if (this.timerId != undefined) {
-        clearInterval(this.timerId);
-        this.timerId = undefined;
+      if (!refThis.initialized) {
+        return;
       }
 
       var request = new XMLHttpRequest();
 
-      request.open("POST", "https://chromasdk.io:54236/razer/chromasdk", true);
+      request.open("PUT", refThis.uri + "/heartbeat", true);
 
       request.setRequestHeader("content-type", "application/json");
 
-      var data = JSON.stringify({
-          "title": "HTML5ChromaSDK",
-          "description": "JS Library for playing Chroma animations",
-          "author": {
-              "name": "Razer, Inc.",
-              "contact": "https://github.com/RazerOfficial/HTML5ChromaSDK"
-          },
-          "device_supported": [
-              "keyboard",
-              "mouse",
-              "headset",
-              "mousepad",
-              "keypad",
-              "chromalink"],
-          "category": "application"
-      });
-
-      request.send(data);
+      request.onerror = function () {
+        console.log('Heartbeat onerror', request.status);
+      };
 
       request.onreadystatechange = function () {
-          if (request.readyState == 4 && request.responseText != undefined && request.responseText != "") {
-              uri = JSON.parse(request.responseText)["uri"];
-              //console.log(uri);
-              timerId = setInterval(onTimer, 1000);
-              initialized = true;
+          if (request.readyState == 4 && request.status != 200){
+              console.log('Heartbeat error', request.status);
+              /*
+              setTimeout(function() {
+                chromaSDK.uninit();
+              }, 0);
+              setTimeout(function() {
+                chromaSDK.init();
+              }, 100);
+              */
           }
       }
-		}, 0);
+
+      request.send(null);
     },
-    uninit: function () {
-      setTimeout(function() {
+    init: function () {
+      var refThis = this;
+  		setTimeout(function() {
 
-        initialized = false;
-
-        if (this.uri == undefined) {
-          return;
+        if (refThis.timerId != undefined) {
+          clearInterval(refThis.timerId);
+          refThis.timerId = undefined;
         }
 
         var request = new XMLHttpRequest();
 
-        request.open("DELETE", uri, true);
+        request.open("POST", "https://chromasdk.io:54236/razer/chromasdk", true);
+
+        request.setRequestHeader("content-type", "application/json");
+
+        var data = JSON.stringify({
+            "title": "HTML5ChromaSDK",
+            "description": "JS Library for playing Chroma animations",
+            "author": {
+                "name": "Razer, Inc.",
+                "contact": "https://github.com/RazerOfficial/HTML5ChromaSDK"
+            },
+            "device_supported": [
+                "keyboard",
+                "mouse",
+                "headset",
+                "mousepad",
+                "keypad",
+                "chromalink"],
+            "category": "application"
+        });
+
+        request.send(data);
+
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.responseText != undefined && request.responseText != "") {
+                refThis.uri = JSON.parse(request.responseText)["uri"];
+                refThis.timerId = setInterval(refThis.onTimer, 1000);
+                refThis.initialized = true;
+                console.log('Chroma is initialized!');
+            }
+        }
+  		}, 0);
+    },
+    uninit: function () {
+      var refThis = this;
+      setTimeout(function() {
+
+        refThis.initialized = false;
+
+        if (refThis.uri == undefined) {
+          return;
+        }
+
+        console.log('Uninitializing Chroma...');
+        var request = new XMLHttpRequest();
+
+        request.open("DELETE", refThis.uri, true);
 
         request.setRequestHeader("content-type", "application/json");
 
@@ -107,17 +110,19 @@ ChromaSDK.prototype = {
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
                 //console.log(request.responseText);
+                console.log('Chroma uninitialized!');
             }
         }
-        uri = undefined;
-		}, 0);
+        refThis.uri = undefined;
+		  }, 0);
     },
     createKeyboardEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -137,51 +142,56 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/keyboard", true);
+        request.open("PUT", refThis.uri + "/keyboard", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+  		}, 0);
     },
     preCreateKeyboardEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
+      var jsonObj;
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        } else if (effect == "CHROMA_CUSTOM_KEY") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        }
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      } else if (effect == "CHROMA_CUSTOM_KEY") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      }
 
-        //console.log(jsonObj);
+      //console.log(jsonObj);
 
-        var request = new XMLHttpRequest();
+      var request = new XMLHttpRequest();
 
-        request.open("POST", uri + "/keyboard", false);
+      request.open("POST", refThis.uri + "/keyboard", false);
 
-        request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("content-type", "application/json");
 
-        request.send(jsonObj);
+      request.send(jsonObj);
 
-        //console.log(request.responseText);
+      //console.log(request.responseText);
 
-        //console.log('preCreateKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      //console.log('preCreateKeyboardEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
-        return JSON.parse(request.responseText)['id'];
+      return JSON.parse(request.responseText)['id'];
     },
     createMousematEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -198,47 +208,52 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/mousepad", true);
+        request.open("PUT", refThis.uri + "/mousepad", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     preCreateMousematEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
+      var jsonObj;
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        }
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      }
 
-        //console.log(jsonObj);
+      //console.log(jsonObj);
 
-        var request = new XMLHttpRequest();
+      var request = new XMLHttpRequest();
 
-        request.open("POST", uri + "/mousepad", false);
+      request.open("POST", refThis.uri + "/mousepad", false);
 
-        request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("content-type", "application/json");
 
-        request.send(jsonObj);
+      request.send(jsonObj);
 
-        //console.log('preCreateMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      //console.log('preCreateMousematEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
-        return JSON.parse(request.responseText)['id'];
+      return JSON.parse(request.responseText)['id'];
     },
     createMouseEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -255,47 +270,52 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/mouse", true);
+        request.open("PUT", refThis.uri + "/mouse", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     preCreateMouseEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
+      var jsonObj;
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM2") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        }
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM2") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      }
 
-        //console.log(jsonObj);
+      //console.log(jsonObj);
 
-        var request = new XMLHttpRequest();
+      var request = new XMLHttpRequest();
 
-        request.open("POST", uri + "/mouse", false);
+      request.open("POST", refThis.uri + "/mouse", false);
 
-        request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("content-type", "application/json");
 
-        request.send(jsonObj);
+      request.send(jsonObj);
 
-        //console.log('preCreateMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      //console.log('preCreateMouseEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
-        return JSON.parse(request.responseText)['id'];
+      return JSON.parse(request.responseText)['id'];
     },
     createHeadsetEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -312,47 +332,53 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/headset", true);
+        request.open("PUT", refThis.uri + "/headset", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     preCreateHeadsetEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        }
+      var jsonObj;
 
-        //console.log(jsonObj);
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      }
 
-        var request = new XMLHttpRequest();
+      //console.log(jsonObj);
 
-        request.open("POST", uri + "/headset", false);
+      var request = new XMLHttpRequest();
 
-        request.setRequestHeader("content-type", "application/json");
+      request.open("POST", refThis.uri + "/headset", false);
 
-        request.send(jsonObj);
+      request.setRequestHeader("content-type", "application/json");
 
-        //console.log('preCreateHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      request.send(jsonObj);
 
-        return JSON.parse(request.responseText)['id'];
+      //console.log('preCreateHeadsetEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+
+      return JSON.parse(request.responseText)['id'];
     },
     createKeypadEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -369,47 +395,52 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/keypad", true);
+        request.open("PUT", refThis.uri + "/keypad", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     preCreateKeypadEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
+      var jsonObj;
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        }
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      }
 
-        //console.log(jsonObj);
+      //console.log(jsonObj);
 
-        var request = new XMLHttpRequest();
+      var request = new XMLHttpRequest();
 
-        request.open("POST", uri + "/keypad", false);
+      request.open("POST", refThis.uri + "/keypad", false);
 
-        request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("content-type", "application/json");
 
-        request.send(jsonObj);
+      request.send(jsonObj);
 
-        //console.log('preCreateKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      //console.log('preCreateKeypadEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
-        return JSON.parse(request.responseText)['id'];
+      return JSON.parse(request.responseText)['id'];
     },
     createChromaLinkEffect: function (effect, data) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj;
 
@@ -426,47 +457,52 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/chromalink", true);
+        request.open("PUT", refThis.uri + "/chromalink", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('createChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     preCreateChromaLinkEffect: function (effect, data) {
-        var jsonObj;
+      var refThis = this;
+      if (refThis.uri == undefined) {
+        return;
+      }
+      var jsonObj;
 
-        if (effect == "CHROMA_NONE") {
-            jsonObj = JSON.stringify({ "effect": effect });
-        } else if (effect == "CHROMA_CUSTOM") {
-            jsonObj = JSON.stringify({ "effect": effect, "param": data });
-        } else if (effect == "CHROMA_STATIC") {
-            var color = { "color": data };
-            jsonObj = JSON.stringify({ "effect": effect, "param": color });
-        }
+      if (effect == "CHROMA_NONE") {
+          jsonObj = JSON.stringify({ "effect": effect });
+      } else if (effect == "CHROMA_CUSTOM") {
+          jsonObj = JSON.stringify({ "effect": effect, "param": data });
+      } else if (effect == "CHROMA_STATIC") {
+          var color = { "color": data };
+          jsonObj = JSON.stringify({ "effect": effect, "param": color });
+      }
 
-        //console.log(jsonObj);
+      //console.log(jsonObj);
 
-        var request = new XMLHttpRequest();
+      var request = new XMLHttpRequest();
 
-        request.open("POST", uri + "/chromalink", false);
+      request.open("POST", refThis.uri + "/chromalink", false);
 
-        request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("content-type", "application/json");
 
-        request.send(jsonObj);
+      request.send(jsonObj);
 
-        //console.log('preCreateChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
+      //console.log('preCreateChromaLinkEffect(' + effect + ', ' + data + ') returns ' + JSON.parse(request.responseText)['result']);
 
-        return JSON.parse(request.responseText)['id'];
+      return JSON.parse(request.responseText)['id'];
     },
     setEffect: function (id) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj = JSON.stringify({ "id": id });
 
@@ -474,21 +510,22 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("PUT", uri + "/effect", true);
+        request.open("PUT", refThis.uri + "/effect", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('setEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     deleteEffect: function (id) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj = JSON.stringify({ "id": id });
 
@@ -496,21 +533,22 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("DELETE", uri + "/effect", true);
+        request.open("DELETE", refThis.uri + "/effect", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('deleteEffect(' + id + ') returns ' + JSON.parse(request.responseText)['result']);
-		}, 0);
+		  }, 0);
     },
     deleteEffectGroup: function (ids) {
-		setTimeout(function() {
+      var refThis = this;
+  		setTimeout(function() {
 
-		if (this.uri == undefined) {
-			return;
-		}
+    		if (refThis.uri == undefined) {
+    			return;
+    		}
 
         var jsonObj = ids;
 
@@ -518,14 +556,14 @@ ChromaSDK.prototype = {
 
         var request = new XMLHttpRequest();
 
-        request.open("DELETE", uri + "/effect", true);
+        request.open("DELETE", refThis.uri + "/effect", true);
 
         request.setRequestHeader("content-type", "application/json");
 
         request.send(jsonObj);
 
         //console.log('deleteEffectGroup() returns ' + JSON.parse(request.responseText));
-		}, 0);
+		  }, 0);
     }
 }
 
@@ -779,15 +817,20 @@ var ChromaAnimation = {
           animation.playFrame();
           if (idleAnimation != animation) {
             useIdleAnimation = false;
+
+      			if (idleAnimation != undefined) {
+      			  idleAnimation.FrameTime = animation.FrameTime;
+      			}
           }
         }
       }
 
       // play idle animation if no other animations are playing
-      if (useIdleAnimation &&
-        ChromaAnimation.UseIdleAnimation1D[device] &&
+      if (ChromaAnimation.UseIdleAnimation1D[device] &&
         idleAnimation != undefined) {
-        idleAnimation.playFrame();
+        if (useIdleAnimation) {
+          idleAnimation.playFrame();
+        }
       }
     }
 
@@ -802,15 +845,20 @@ var ChromaAnimation = {
           animation.playFrame();
           if (idleAnimation != animation) {
             useIdleAnimation = false;
+
+          	if (idleAnimation != undefined) {
+          	  idleAnimation.FrameTime = animation.FrameTime;
+          	}
           }
         }
       }
 
       // play idle animation if no other animations are playing
-      if (useIdleAnimation &&
-        ChromaAnimation.UseIdleAnimation2D[device] &&
+      if (ChromaAnimation.UseIdleAnimation2D[device] &&
         idleAnimation != undefined) {
-        idleAnimation.playFrame();
+        if (useIdleAnimation) {
+              idleAnimation.playFrame();
+        }
       }
     }
 
@@ -851,7 +899,7 @@ var ChromaAnimation = {
       return undefined;
     }
   },
-  openAnimation : function (animationName, callback) {
+  openAnimation : function (animationName, callback, useCache) {
     var refThis = this;
     var xhr = new XMLHttpRequest();
 
@@ -905,7 +953,11 @@ var ChromaAnimation = {
       }
     }
 
-    xhr.open('GET', animationName, true);
+    if (useCache == undefined || useCache == true) {
+      xhr.open('GET', animationName, true);
+    } else {
+      xhr.open('GET', animationName+'?cache=' + Date.now(), true);
+    }
     xhr.responseType = "arraybuffer";
     xhr.send('');
   },
@@ -2040,14 +2092,6 @@ var ChromaAnimation = {
     if (targetAnimation == undefined) {
       return;
     }
-    if (sourceAnimation.DeviceType != EChromaSDKDeviceTypeEnum.DE_2D ||
-      sourceAnimation.Device != EChromaSDKDevice2DEnum.DE_Keyboard) {
-      return;
-    }
-    if (targetAnimation.DeviceType != EChromaSDKDeviceTypeEnum.DE_2D ||
-      targetAnimation.Device != EChromaSDKDevice2DEnum.DE_Keyboard) {
-      return;
-    }
     var sourceFrames = sourceAnimation.Frames;
     if (sourceFrames.length == 0) {
       return;
@@ -2056,22 +2100,41 @@ var ChromaAnimation = {
     if (targetFrames.length == 0) {
       return;
     }
-    var maxRow = ChromaAnimation.getMaxRow(EChromaSDKDevice2DEnum.DE_Keyboard);
-    var maxColumn = ChromaAnimation.getMaxColumn(EChromaSDKDevice2DEnum.DE_Keyboard);
-    //console.log(animation.Frames);
-    for (var frameId = 0; frameId < targetFrames.length; ++frameId) {
-      var sourceFrame = sourceFrames[frameId % sourceFrames.length];
-      var targetFrame = targetFrames[frameId];
-      var sourceColors = sourceFrame.Colors;
-      var targetColors = targetFrame.Colors;
-      for (var i = 0; i < maxRow; ++i) {
-        var sourceRow = sourceColors[i];
-        var targetRow = targetColors[i];
-        for (var j = 0; j < maxColumn; ++j) {
-          var color = sourceRow[j];
-          if (color != 0 &&
-            targetRow[j] != 0) {
-            targetRow[j] = color;
+    if (sourceAnimation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
+      var maxLeds = ChromaAnimation.getMaxLeds(sourceAnimation.Device);
+      //console.log(animation.Frames);
+      for (var frameId = 0; frameId < targetFrames.length; ++frameId) {
+        var sourceFrame = sourceFrames[frameId % sourceFrames.length];
+        var targetFrame = targetFrames[frameId];
+        var sourceColors = sourceFrame.Colors;
+        var targetColors = targetFrame.Colors;
+        for (var i = 0; i < maxLeds; ++i) {
+          var sourceColor = sourceColors[i];
+          var targetColor = targetColors[i];
+          if (sourceColor != 0 &&
+            targetColor != 0) {
+            targetColors[i] = sourceColor;
+          }
+        }
+      }
+    } else if (sourceAnimation.DeviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
+      var maxRow = ChromaAnimation.getMaxRow(sourceAnimation.Device);
+      var maxColumn = ChromaAnimation.getMaxColumn(sourceAnimation.Device);
+      //console.log(animation.Frames);
+      for (var frameId = 0; frameId < targetFrames.length; ++frameId) {
+        var sourceFrame = sourceFrames[frameId % sourceFrames.length];
+        var targetFrame = targetFrames[frameId];
+        var sourceColors = sourceFrame.Colors;
+        var targetColors = targetFrame.Colors;
+        for (var i = 0; i < maxRow; ++i) {
+          var sourceRow = sourceColors[i];
+          var targetRow = targetColors[i];
+          for (var j = 0; j < maxColumn; ++j) {
+            var color = sourceRow[j];
+            if (color != 0 &&
+              targetRow[j] != 0) {
+              targetRow[j] = color;
+            }
           }
         }
       }
@@ -2382,6 +2445,44 @@ var ChromaAnimation = {
     }
   },
   fillColor: function(animationName, frameId, newColor) {
+    var animation = this.LoadedAnimations[animationName];
+    if (animation == undefined) {
+      return;
+    }
+    var frames = animation.Frames;
+    if (frames.length == 0) {
+      return;
+    }
+    if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
+      var maxLeds = ChromaAnimation.getMaxLeds(animation.Device);
+      //console.log(animation.Frames);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        var colors = frame.Colors;
+        for (var i = 0; i < maxLeds; ++i) {
+          var color = colors[i];
+          colors[i] = newColor;
+        }
+      }
+    } else if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
+      var maxRow = ChromaAnimation.getMaxRow(animation.Device);
+      var maxColumn = ChromaAnimation.getMaxColumn(animation.Device);
+      //console.log(animation.Frames);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        var colors = frame.Colors;
+        for (var i = 0; i < maxRow; ++i) {
+          var row = colors[i];
+          for (var j = 0; j < maxColumn; ++j) {
+            var color = row[j];
+            row[j] = newColor;
+          }
+        }
+      }
+    }
+  },
+  fillColorRGB: function(animationName, frameId, red, green, blue) {
+    var newColor = this.getRGB(red, green, blue);
     var animation = this.LoadedAnimations[animationName];
     if (animation == undefined) {
       return;
@@ -3526,6 +3627,7 @@ var ChromaAnimation = {
         frames.push(frame);
       }
       var newAnimation = new ChromaAnimation1D();
+	  newAnimation.Name = newAnimationName;
       newAnimation.Device = animation.Device;
       newAnimation.DeviceType = animation.DeviceType;
       newAnimation.Frames = frames;
@@ -3548,6 +3650,7 @@ var ChromaAnimation = {
         frames.push(frame);
       }
       var newAnimation = new ChromaAnimation2D();
+	  newAnimation.Name = newAnimationName;
       newAnimation.Device = animation.Device;
       newAnimation.DeviceType = animation.DeviceType;
       newAnimation.Frames = frames;
@@ -3655,10 +3758,12 @@ var ChromaAnimation = {
         frames.push(frame);
       }
       var newAnimation = new ChromaAnimation1D();
+      newAnimation.Name = animationName;
       newAnimation.Device = device;
       newAnimation.DeviceType = deviceType;
       newAnimation.Frames = frames;
       this.LoadedAnimations[animationName] = newAnimation;
+      return newAnimation;
     } else if (deviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
       var maxRow = ChromaAnimation.getMaxRow(device);
       var maxColumn = ChromaAnimation.getMaxColumn(device);
@@ -3676,10 +3781,12 @@ var ChromaAnimation = {
         frames.push(frame);
       }
       var newAnimation = new ChromaAnimation2D();
+      newAnimation.Name = animationName;
       newAnimation.Device = device;
       newAnimation.DeviceType = deviceType;
       newAnimation.Frames = frames;
       this.LoadedAnimations[animationName] = newAnimation;
+      return newAnimation;
     }
   },
   reduceFrames: function(animationName, n) {
@@ -3909,22 +4016,15 @@ var ChromaAnimation = {
     if (animation == undefined) {
       return;
     }
-    if (animation.DeviceType != EChromaSDKDeviceTypeEnum.DE_2D ||
-      animation.Device != EChromaSDKDevice2DEnum.DE_Keyboard) {
-      return;
-    }
     var frames = animation.Frames;
-    var maxRow = ChromaAnimation.getMaxRow(EChromaSDKDevice2DEnum.DE_Keyboard);
-    var maxColumn = ChromaAnimation.getMaxColumn(EChromaSDKDevice2DEnum.DE_Keyboard);
-    //console.log(animation.Frames);
-    if (frameId >= 0 && frameId < frames.length) {
-      var frame = frames[frameId];
-      //console.log(frame);
-      var colors = frame.Colors;
-      for (var i = 0; i < maxRow; ++i) {
-        var row = colors[i];
-        for (var j = 0; j < maxColumn; ++j) {
-          var color = row[j];
+    if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
+      var maxLeds = ChromaAnimation.getMaxLeds(animation.Device);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        //console.log(frame);
+        var colors = frame.Colors;
+        for (var i = 0; i < maxLeds; ++i) {
+          var color = colors[i];
           //console.log('color', color);
           var red = (color & 0xFF);
           var green = (color & 0xFF00) >> 8;
@@ -3933,7 +4033,31 @@ var ChromaAnimation = {
           green = Math.min(255, Math.max(0, Number(green) + Number(greenOffset))) & 0xFF;
           blue = Math.min(255, Math.max(0, Number(blue) + Number(blueOffset))) & 0xFF;
           color = red | (green << 8) | (blue << 16);
-          row[j] = color;
+          colors[i] = color;
+        }
+      }
+    } else if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
+      var maxRow = ChromaAnimation.getMaxRow(animation.Device);
+      var maxColumn = ChromaAnimation.getMaxColumn(animation.Device);
+      //console.log(animation.Frames);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        //console.log(frame);
+        var colors = frame.Colors;
+        for (var i = 0; i < maxRow; ++i) {
+          var row = colors[i];
+          for (var j = 0; j < maxColumn; ++j) {
+            var color = row[j];
+            //console.log('color', color);
+            var red = (color & 0xFF);
+            var green = (color & 0xFF00) >> 8;
+            var blue = (color & 0xFF0000) >> 16;
+            red = Math.min(255, Math.max(0, Number(red) + Number(redOffset))) & 0xFF;
+            green = Math.min(255, Math.max(0, Number(green) + Number(greenOffset))) & 0xFF;
+            blue = Math.min(255, Math.max(0, Number(blue) + Number(blueOffset))) & 0xFF;
+            color = red | (green << 8) | (blue << 16);
+            row[j] = color;
+          }
         }
       }
     }
@@ -4552,6 +4676,52 @@ var ChromaAnimation = {
       var t = (frameId+1) / frameCount;
       var color = this.lerpColor(color1, color2, t);
       this.multiplyIntensityColor(animationName, frameId, color);
+    }
+  },
+  multiplyTargetColorLerp: function(animationName, frameId, color1, color2) {
+    var animation = this.LoadedAnimations[animationName];
+    if (animation == undefined) {
+      return;
+    }
+    var frames = animation.Frames;
+    if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_1D) {
+      var maxLeds = ChromaAnimation.getMaxLeds(animation.Device);
+      //console.log(animation.Frames);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        //console.log(frame);
+        var colors = frame.Colors;
+        for (var i = 0; i < maxLeds; ++i) {
+          var color = colors[i];
+          //console.log('color', color);
+          var red = (color & 0xFF) / 255.0;
+          var green = ((color & 0xFF00) >> 8) / 255.0;
+          var blue = ((color & 0xFF0000) >> 16) / 255.0;
+          var t = (red+green+blue) / 3.0;
+          colors[i] = ChromaAnimation.lerpColor(color1, color2, t);
+        }
+      }
+    } else if (animation.DeviceType == EChromaSDKDeviceTypeEnum.DE_2D) {
+      var maxRow = ChromaAnimation.getMaxRow(animation.Device);
+      var maxColumn = ChromaAnimation.getMaxColumn(animation.Device);
+      //console.log(animation.Frames);
+      if (frameId >= 0 && frameId < frames.length) {
+        var frame = frames[frameId];
+        //console.log(frame);
+        var colors = frame.Colors;
+        for (var i = 0; i < maxRow; ++i) {
+          var row = colors[i];
+          for (var j = 0; j < maxColumn; ++j) {
+            var color = row[j];
+            //console.log('color', color);
+            var red = (color & 0xFF) / 255.0;
+            var green = ((color & 0xFF00) >> 8) / 255.0;
+            var blue = ((color & 0xFF0000) >> 16) / 255.0;
+            var t = (red+green+blue) / 3.0;
+            row[j] = ChromaAnimation.lerpColor(color1, color2, t);
+          }
+        }
+      }
     }
   },
   multiplyTargetColorLerpAllFrames: function(animationName, color1, color2) {
@@ -5290,7 +5460,7 @@ ChromaAnimation1D.prototype = {
     }
   },
   playFrame: function() {
-    if (this.FrameTime < Date.now()) {
+    if (this.FrameTime > Date.now()) {
       return;
     }
     if (this.CurrentIndex < this.Frames.length) {
@@ -5313,7 +5483,7 @@ ChromaAnimation1D.prototype = {
       var refThis = this;
       if (duration < 0.1) {
         duration = 0.1;
-      }
+	  }
       this.FrameTime = Date.now() + Math.floor(duration * 1000);
       ++this.CurrentIndex;
     } else {
@@ -5517,7 +5687,7 @@ ChromaAnimation2D.prototype = {
     }
   },
   playFrame: function() {
-    if (this.FrameTime < Date.now()) {
+    if (this.FrameTime > Date.now()) {
       return;
     }
     if (this.CurrentIndex < this.Frames.length) {
@@ -5544,7 +5714,7 @@ ChromaAnimation2D.prototype = {
       var refThis = this;
       if (duration < 0.1) {
         duration = 0.1;
-      }
+	  }
       this.FrameTime = Date.now() + Math.floor(duration * 1000);
       ++this.CurrentIndex;
     } else {
